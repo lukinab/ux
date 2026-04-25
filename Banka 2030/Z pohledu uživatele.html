@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banka 2030 — 3 koncepty a customer journey</title>
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-mute: #8A8A8A;
+    --line: #E6E6E0;
+    --card: #FFFFFF;
+    --c1: #C8621B;   /* Marta — důvěra */
+    --c1-soft: #FCEFE0;
+    --c2: #2346CC;   /* Tomáš — autonomie */
+    --c2-soft: #E5EAFB;
+    --c3: #1F7F5A;   /* Petra — společně */
+    --c3-soft: #E2F2EA;
+    --pain: #B83A3A;
+    --pain-soft: #FBEAEA;
+    --opp: #1F7F5A;
+    --opp-soft: #E2F2EA;
+    --emo-pos: #1F7F5A;
+    --emo-neu: #8A8A8A;
+    --emo-neg: #B83A3A;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 28px; }
+  header.hero {
+    border-bottom: 1px solid var(--line);
+    padding: 60px 28px 44px;
+    background: linear-gradient(180deg, #FFF 0%, var(--bg) 100%);
+  }
+  .hero-inner { max-width: 1200px; margin: 0 auto; }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+  h1 {
+    font-size: 44px;
+    line-height: 1.1;
+    margin: 12px 0 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 780px;
+    margin: 0 0 24px;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .meta-row b { color: var(--ink); font-weight: 600; }
+
+  nav.toc {
+    position: sticky;
+    top: 0;
+    background: rgba(250, 250, 247, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    z-index: 10;
+    padding: 14px 28px;
+  }
+  .toc-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    align-items: center;
+    font-size: 14px;
+  }
+  .toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .toc a:hover { background: var(--line); color: var(--ink); }
+  .toc-label { color: var(--ink-mute); font-weight: 600; }
+
+  h2 {
+    font-size: 32px;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 20px;
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+  h4 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 10px;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+
+  /* Overview trio */
+  .trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 40px 0 60px;
+  }
+  .trio .tile {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .trio .tile:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .trio .accent {
+    width: 40px; height: 4px; border-radius: 2px; margin-bottom: 14px;
+  }
+  .trio .tile h3 { margin-bottom: 4px; }
+  .trio .tile p { margin: 6px 0 0; font-size: 14px; color: var(--ink-soft); }
+  .tile-tag {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  /* Concept section */
+  .concept {
+    margin: 80px 0;
+    padding-top: 12px;
+    scroll-margin-top: 72px;
+  }
+  .concept-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .badge {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    display: inline-block;
+  }
+  .badge-1 { background: var(--c1-soft); color: var(--c1); }
+  .badge-2 { background: var(--c2-soft); color: var(--c2); }
+  .badge-3 { background: var(--c3-soft); color: var(--c3); }
+
+  .concept h2 { display: inline-block; margin-right: 12px; }
+  .concept-sub { color: var(--ink-soft); font-size: 17px; margin-top: 6px; }
+
+  /* Two-col layout for persona + goal */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .card-accent-1 { border-top: 3px solid var(--c1); }
+  .card-accent-2 { border-top: 3px solid var(--c2); }
+  .card-accent-3 { border-top: 3px solid var(--c3); }
+
+  .persona-list { list-style: none; padding: 0; margin: 14px 0 0; }
+  .persona-list li {
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+    display: flex;
+    gap: 10px;
+  }
+  .persona-list li:last-child { border: 0; }
+  .persona-list b { color: var(--ink-mute); min-width: 130px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .scenario-text {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 10px 0 0;
+  }
+  .goal-chip {
+    display: inline-block;
+    background: var(--ink);
+    color: #FFF;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+
+  /* Journey map */
+  .journey {
+    margin: 40px 0;
+  }
+  .journey-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .journey-scroll {
+    overflow-x: auto;
+    margin: 0 -28px;
+    padding: 0 28px 10px;
+  }
+  .journey-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(210px, 1fr));
+    gap: 14px;
+    min-width: 1050px;
+  }
+  .phase {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .phase-num {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: var(--ink-mute);
+  }
+  .phase-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    margin: -6px 0 6px;
+  }
+  .phase-block h5 {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 4px;
+    color: var(--ink-mute);
+    font-weight: 700;
+  }
+  .phase-block p { margin: 0; font-size: 13.5px; color: var(--ink); line-height: 1.45; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+  .chip {
+    display: inline-block;
+    font-size: 11.5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #F1F1EC;
+    color: var(--ink-soft);
+  }
+  .emo {
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+  .emo-neg { background: #FBEAEA; color: #7A2626; }
+  .emo-neu { background: #F1F1EC; color: #4A4A4A; }
+  .emo-pos { background: #E2F2EA; color: #175D41; }
+  .pain-opp {
+    border-top: 1px dashed var(--line);
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .pain {
+    font-size: 12.5px;
+    color: #7A2626;
+    padding-left: 14px;
+    border-left: 3px solid var(--pain);
+    line-height: 1.4;
+  }
+  .opp {
+    font-size: 12.5px;
+    color: #175D41;
+    padding-left: 14px;
+    border-left: 3px solid var(--opp);
+    line-height: 1.4;
+  }
+
+  /* Emotional curve */
+  .emo-curve-wrap {
+    margin: -4px 0 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 18px;
+    overflow-x: auto;
+  }
+  .emo-curve-wrap svg { display: block; min-width: 1050px; }
+  .emo-curve-label {
+    font-size: 11px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* Principles */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 16px 0 0;
+  }
+  .principle {
+    padding: 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    position: relative;
+  }
+  .principle-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+  }
+  .principle-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .principle-desc {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* Impact / risk */
+  .imp-risk {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 18px;
+  }
+  .imp {
+    background: var(--opp-soft);
+    border: 1px solid #CDE7D8;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .risk {
+    background: var(--pain-soft);
+    border: 1px solid #EDCDCD;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .imp h4, .risk h4 { color: var(--ink); }
+  .imp-risk ul { margin: 8px 0 0; padding-left: 20px; }
+  .imp-risk li { font-size: 14px; line-height: 1.55; margin-bottom: 6px; color: var(--ink); }
+
+  /* Synthesis */
+  section.synthesis {
+    margin: 100px 0 60px;
+    padding: 40px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  table.compare th, table.compare td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.compare th {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+  table.compare td:first-child { font-weight: 600; width: 22%; color: var(--ink); }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 28px;
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 13px;
+  }
+
+  @media (max-width: 820px) {
+    h1 { font-size: 32px; }
+    h2 { font-size: 26px; }
+    .trio, .two-col, .imp-risk { grid-template-columns: 1fr; }
+    .toc { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">UX & Service Design — konceptuální průzkum</span>
+    <h1>Banka 2030: jak ji budou lidé opravdu používat</h1>
+    <p class="lede">
+      Tři koncepty zkoumají, jak může vypadat bankovnictví za pět let, pokud odložíme technická omezení a začneme
+      od potřeb skutečných lidí. Každý koncept je postaven okolo jiné persony, jiné životní situace a jiné filozofie
+      ovládání — od hlasové asistentky pro seniory po finančního copilota pro freelancery a sdílenou platformu
+      pro rodiny.
+    </p>
+    <div class="meta-row">
+      <span><b>Metodika:</b> Double Diamond + Human-Centered Design</span>
+      <span><b>Výstup:</b> 3 koncepty, customer journey, design principy, rizika</span>
+      <span><b>Horizont:</b> 2030</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <span class="toc-label">Koncepty →</span>
+    <a href="#c1">1. Důvěra (hlasová banka)</a>
+    <a href="#c2">2. Autonomie (AI copilot)</a>
+    <a href="#c3">3. Společně (rodinná platforma)</a>
+    <a href="#synteza">Syntéza</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- Overview -->
+  <section>
+    <h2>Tři koncepty, tři filozofie</h2>
+    <p class="lede" style="font-size:16px;">
+      Cílem nebylo vybrat nejlepší přístup, ale rozkreslit spektrum — od maximální péče a asistence až po plnou
+      autonomii delegovanou AI. Každý koncept otevírá jiné otázky.
+    </p>
+    <div class="trio">
+      <a href="#c1" class="tile">
+        <div class="accent" style="background: var(--c1);"></div>
+        <span class="tile-tag" style="color: var(--c1);">Koncept 01 · Důvěra</span>
+        <h3>Hlasem vedená banka</h3>
+        <p>Pro ty, kterým digitální svět připadá cizí. Konverzace místo navigace, proaktivní ochrana před podvody, člověk na jeden dotek.</p>
+      </a>
+      <a href="#c2" class="tile">
+        <div class="accent" style="background: var(--c2);"></div>
+        <span class="tile-tag" style="color: var(--c2);">Koncept 02 · Autonomie</span>
+        <h3>Finanční copilot</h3>
+        <p>Pro freelancery a podnikatele. AI navrhuje, člověk schvaluje. Banka pracuje na pozadí a umí vyprávět místo tabulek.</p>
+      </a>
+      <a href="#c3" class="tile">
+        <div class="accent" style="background: var(--c3);"></div>
+        <span class="tile-tag" style="color: var(--c3);">Koncept 03 · Společně</span>
+        <h3>Rodinná platforma</h3>
+        <p>Jeden účet od 7 do 77 let. Děti se učí skrze reálné rozhodování, dospělí sdílejí odpovědnost, senioři zůstávají samostatní.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== KONCEPT 1 ==================== -->
+  <section class="concept" id="c1">
+    <div class="concept-head">
+      <div>
+        <span class="badge badge-1">Koncept 01 · Důvěra</span>
+        <h2 style="margin-top:10px;">Hlasem vedená banka</h2>
+        <p class="concept-sub">Banka, která mluví, vysvětluje a chrání — pro uživatele, kteří dnes zůstávají u pobočky.</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card card-accent-1">
+        <h4>Kontext a persona</h4>
+        <h3>Marta, 68 let</h3>
+        <ul class="persona-list">
+          <li><b>Role</b><span>Důchodkyně, pečuje o vnoučata, vede rodinný rozpočet</span></li>
+          <li><b>Motivace</b><span>Zůstat finančně nezávislá a bezpečná před podvodníky</span></li>
+          <li><b>Chování</b><span>Preferuje osobní kontakt, telefonuje, zprávy čte pomalu</span></li>
+          <li><b>Digitální gramotnost</b><span>Nízká až střední — používá appku na hovory a fotky</span></li>
+          <li><b>Situace</b><span>Přišla faktura za revizi kotle. QR kódu nerozumí, online platbě nedůvěřuje.</span></li>
+        </ul>
+      </div>
+      <div class="card card-accent-1">
+        <h4>Cíl a scénář</h4>
+        <span class="goal-chip">Za 1–2 minuty mít zaplaceno a jistotu, že to nebyl podvod</span>
+        <p class="scenario-text">
+          Marta namíří kameru na fakturu nebo řekne: „Sáro, chci zaplatit.“ Hlasová asistentka přečte údaje nahlas,
+          ověří dodavatele proti historii, upozorní na podezřelé vzorce, poprosí o hlasové potvrzení a platbu
+          provede. Vše v jednom dialogu, srozumitelným jazykem, s možností 60sekundového undo okna.
+        </p>
+      </div>
+    </div>
+
+    <!-- Journey 1 -->
+    <div class="journey">
+      <div class="journey-header">
+        <h3>Customer journey — od nejistoty k úlevě</h3>
+        <span style="font-size:13px; color: var(--ink-mute);">← posouvejte vodorovně →</span>
+      </div>
+
+      <div class="emo-curve-wrap">
+        <span class="emo-curve-label">Emoční křivka</span>
+        <svg viewBox="0 0 1050 110" width="100%" height="110">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="#C8621B" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#C8621B" stop-opacity="0.05"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="55" x2="1050" y2="55" stroke="#E6E6E0" stroke-dasharray="4 4"/>
+          <path d="M 20 80 Q 130 95 210 70 T 420 60 T 630 40 T 840 30 T 1030 25"
+                fill="none" stroke="#C8621B" stroke-width="2.5"/>
+          <path d="M 20 80 Q 130 95 210 70 T 420 60 T 630 40 T 840 30 T 1030 25 L 1030 110 L 20 110 Z"
+                fill="url(#g1)" stroke="none"/>
+          <circle cx="105" cy="80" r="5" fill="#C8621B"/>
+          <circle cx="315" cy="65" r="5" fill="#C8621B"/>
+          <circle cx="525" cy="50" r="5" fill="#C8621B"/>
+          <circle cx="735" cy="35" r="5" fill="#C8621B"/>
+          <circle cx="945" cy="27" r="5" fill="#C8621B"/>
+          <text x="0" y="18" font-size="10" fill="#8A8A8A">pozitivní</text>
+          <text x="0" y="60" font-size="10" fill="#8A8A8A">neutrální</text>
+          <text x="0" y="100" font-size="10" fill="#8A8A8A">negativní</text>
+        </svg>
+      </div>
+
+      <div class="journey-scroll">
+        <div class="journey-grid">
+
+          <div class="phase">
+            <span class="phase-num">01 · Zvažuje</span>
+            <div class="phase-title">Dostává fakturu</div>
+            <div class="phase-block"><h5>Krok</h5><p>Otevírá papírovou poštu, vidí QR kód a číslo účtu.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">fyzická schránka</span><span class="chip">SMS připomínka</span></div>
+            </div>
+            <div class="emo emo-neg">Nejistota, mírný stres</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Nezná odesílatele, bojí se podvodu.</div>
+              <div class="opp"><b>Příležitost:</b> Banka sama detekuje fakturu a navrhne platbu.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">02 · Spouští</span>
+            <div class="phase-title">„Sáro, chci zaplatit“</div>
+            <div class="phase-block"><h5>Krok</h5><p>Vysloví příkaz nebo klepne na velké tlačítko „Zaplatit“.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">hlasový asistent</span><span class="chip">mobilní app</span><span class="chip">smart displej</span></div>
+            </div>
+            <div class="emo emo-neu">Z pasivity do akce</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Strach, že něco zmáčkne špatně.</div>
+              <div class="opp"><b>Příležitost:</b> Hlas odstraňuje potřebu navigace.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">03 · Používá</span>
+            <div class="phase-title">AI čte a vysvětluje</div>
+            <div class="phase-block"><h5>Krok</h5><p>Sára přečte údaje nahlas, porovná s historií, varuje před anomálií.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">kamera</span><span class="chip">AI voice</span><span class="chip">velký text</span></div>
+            </div>
+            <div class="emo emo-neu">Klid, rostoucí důvěra</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Odborný jazyk faktury.</div>
+              <div class="opp"><b>Příležitost:</b> Překlad do běžné řeči + vizuální potvrzení.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">04 · Dokončuje</span>
+            <div class="phase-title">Potvrzuje hlasem</div>
+            <div class="phase-block"><h5>Krok</h5><p>„Ano, zaplatit 2 340 Kč firmě Kotle Novák.“ Biometrie potvrdí.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">hlasový otisk</span><span class="chip">obličej</span></div>
+            </div>
+            <div class="emo emo-pos">Úleva</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Strach z neodvolatelnosti.</div>
+              <div class="opp"><b>Příležitost:</b> 60s undo okno s živou podporou.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">05 · Následná péče</span>
+            <div class="phase-title">Shrnutí a lidský kontakt</div>
+            <div class="phase-block"><h5>Krok</h5><p>SMS potvrzení, hlasové shrnutí měsíce, volitelná zpráva pečovateli.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">SMS</span><span class="chip">telefonát bankéře</span><span class="chip">audio report</span></div>
+            </div>
+            <div class="emo emo-pos">Spokojenost, kontrola</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Zapomene, co kdy zaplatila.</div>
+              <div class="opp"><b>Příležitost:</b> Měsíční audio shrnutí „co se stalo s tvými penězi“.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Principles 1 -->
+    <div>
+      <h3>Design principy</h3>
+      <div class="principles">
+        <div class="principle"><div class="principle-num">01</div><div class="principle-title">Hlas je primární rozhraní</div><p class="principle-desc">Obrazovka je podpora, ne hlavní kanál. Vše jde zvládnout bez čtení.</p></div>
+        <div class="principle"><div class="principle-num">02</div><div class="principle-title">Vždy vysvětluj PROČ</div><p class="principle-desc">Každá akce AI je odůvodněná běžným jazykem, ne jen hláškou.</p></div>
+        <div class="principle"><div class="principle-num">03</div><div class="principle-title">Proaktivní ochrana před podvody</div><p class="principle-desc">Banka detekuje anomálii dřív, než uživatel klikne na potvrdit.</p></div>
+        <div class="principle"><div class="principle-num">04</div><div class="principle-title">Undo okno 60 sekund</div><p class="principle-desc">Každá platba jde vrátit jedním hlasovým příkazem nebo hovorem.</p></div>
+        <div class="principle"><div class="principle-num">05</div><div class="principle-title">Člověk na jeden dotek</div><p class="principle-desc">Živý bankéř je vždy dostupný — ne jako selhání systému, ale jako rovnocenný kanál.</p></div>
+      </div>
+    </div>
+
+    <!-- Impact / Risk 1 -->
+    <div class="imp-risk">
+      <div class="imp">
+        <h4>Přínos</h4>
+        <ul>
+          <li>Zpřístupnění digitálního bankovnictví skupině, která z něj dnes vypadává.</li>
+          <li>Redukce úspěšnosti sociálně-inženýrských podvodů (hlasové ověření + AI detekce).</li>
+          <li>Redukce kognitivní zátěže — uživatel nemusí rozumět UI, stačí mluvit.</li>
+        </ul>
+      </div>
+      <div class="risk">
+        <h4>Rizika a dilemata</h4>
+        <ul>
+          <li>Přesnost rozpoznávání hlasu u nářečí, tiché řeči, po mozkové příhodě.</li>
+          <li>Etika opatrovnictví: kdo má přístup k datům seniora a kdy?</li>
+          <li>Riziko přehnané paternalizace — banka, která za uživatele rozhoduje „pro jeho dobro“.</li>
+          <li>Závislost na cloud AI — co se stane při výpadku?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== KONCEPT 2 ==================== -->
+  <section class="concept" id="c2">
+    <div class="concept-head">
+      <div>
+        <span class="badge badge-2">Koncept 02 · Autonomie</span>
+        <h2 style="margin-top:10px;">Finanční copilot</h2>
+        <p class="concept-sub">Banka, která pracuje na pozadí. Navrhuje plán, uživatel schvaluje gestem.</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card card-accent-2">
+        <h4>Kontext a persona</h4>
+        <h3>Tomáš, 32 let</h3>
+        <ul class="persona-list">
+          <li><b>Role</b><span>UX designer na volné noze, pracuje pro klienty v EU a USA</span></li>
+          <li><b>Motivace</b><span>Maximalizovat čas na tvůrčí práci, minimum administrativy</span></li>
+          <li><b>Chování</b><span>Multi-tasker, žije v několika měnách a kontextech</span></li>
+          <li><b>Digitální gramotnost</b><span>Vysoká, early adopter, má rád automatizaci</span></li>
+          <li><b>Situace</b><span>Přichází 5 000 USD od klienta. Chce peníze rozdělit (daně, rezerva, provoz, investice) v optimálním kurzu.</span></li>
+        </ul>
+      </div>
+      <div class="card card-accent-2">
+        <h4>Cíl a scénář</h4>
+        <span class="goal-chip">Za 1–2 minuty mít rozplánované příjmy, aniž musí otevřít tabulku</span>
+        <p class="scenario-text">
+          AI vidí přijatou platbu, zná Tomášův kontext (DPH, rezervní plán, investiční preference) a pošle
+          návrh: „1 500 daně, 500 rezerva, 2 000 provoz, 1 000 S&amp;P 500 · kurz 22,40 · potvrdit do 30 s.“
+          Tomáš prstem upraví slider rezervy, schválí. Banka provede konverzi i investici v průběhu dne
+          v nejlepším okamžiku a pošle vysvětlení.
+        </p>
+      </div>
+    </div>
+
+    <!-- Journey 2 -->
+    <div class="journey">
+      <div class="journey-header">
+        <h3>Customer journey — od kontextu k automatické exekuci</h3>
+        <span style="font-size:13px; color: var(--ink-mute);">← posouvejte vodorovně →</span>
+      </div>
+
+      <div class="emo-curve-wrap">
+        <span class="emo-curve-label">Emoční křivka</span>
+        <svg viewBox="0 0 1050 110" width="100%" height="110">
+          <defs>
+            <linearGradient id="g2" x1="0" x2="1">
+              <stop offset="0%" stop-color="#2346CC" stop-opacity="0.12"/>
+              <stop offset="100%" stop-color="#2346CC" stop-opacity="0.04"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="55" x2="1050" y2="55" stroke="#E6E6E0" stroke-dasharray="4 4"/>
+          <path d="M 20 55 Q 130 45 210 42 T 420 55 T 630 35 T 840 28 T 1030 30"
+                fill="none" stroke="#2346CC" stroke-width="2.5"/>
+          <path d="M 20 55 Q 130 45 210 42 T 420 55 T 630 35 T 840 28 T 1030 30 L 1030 110 L 20 110 Z"
+                fill="url(#g2)"/>
+          <circle cx="105" cy="48" r="5" fill="#2346CC"/>
+          <circle cx="315" cy="45" r="5" fill="#2346CC"/>
+          <circle cx="525" cy="50" r="5" fill="#2346CC"/>
+          <circle cx="735" cy="32" r="5" fill="#2346CC"/>
+          <circle cx="945" cy="30" r="5" fill="#2346CC"/>
+          <text x="0" y="18" font-size="10" fill="#8A8A8A">pozitivní</text>
+          <text x="0" y="60" font-size="10" fill="#8A8A8A">neutrální</text>
+          <text x="0" y="100" font-size="10" fill="#8A8A8A">negativní</text>
+        </svg>
+      </div>
+
+      <div class="journey-scroll">
+        <div class="journey-grid">
+
+          <div class="phase">
+            <span class="phase-num">01 · Zvažuje</span>
+            <div class="phase-title">Banka vidí kontext</div>
+            <div class="phase-block"><h5>Krok</h5><p>AI čte fakturační nástroj, CRM, emaily — zná, co kdy má přijít.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">Fakturoid</span><span class="chip">e-mail</span><span class="chip">kalendář</span></div>
+            </div>
+            <div class="emo emo-pos">Klid (banka vidí celek)</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Roztříštěné nástroje, opakované zadávání.</div>
+              <div class="opp"><b>Příležitost:</b> Banka jako hub pracovního života.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">02 · Spouští</span>
+            <div class="phase-title">Návrh plánu</div>
+            <div class="phase-block"><h5>Krok</h5><p>Přichází platba → AI pošle push s připraveným plánem alokace.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">push notifikace</span><span class="chip">smart watch</span><span class="chip">widget</span></div>
+            </div>
+            <div class="emo emo-pos">Očekávání</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Notifikační slepota.</div>
+              <div class="opp"><b>Příležitost:</b> Ambient finance — vidět, až když to má smysl.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">03 · Používá</span>
+            <div class="phase-title">Rychlá úprava</div>
+            <div class="phase-block"><h5>Krok</h5><p>Posune slider rezervy, vybere alternativní investici. V reálném čase vidí dopad na cash flow.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">mobilní app</span><span class="chip">konverzační UI</span></div>
+            </div>
+            <div class="emo emo-neu">Kontrola, kompetence</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Nejistota o budoucím cash flow.</div>
+              <div class="opp"><b>Příležitost:</b> Prediktivní simulace „co se stane, když…“.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">04 · Dokončuje</span>
+            <div class="phase-title">Schválení a exekuce</div>
+            <div class="phase-block"><h5>Krok</h5><p>Biometrie. AI provede konverzi a investici v optimálním čase během dne.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">FaceID</span><span class="chip">audit log</span></div>
+            </div>
+            <div class="emo emo-pos">Efektivita</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Nejasné, kdy k akci přesně dojde.</div>
+              <div class="opp"><b>Příležitost:</b> Transparentní timeline exekuce.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">05 · Následná péče</span>
+            <div class="phase-title">Týdenní audit</div>
+            <div class="phase-block"><h5>Krok</h5><p>AI napíše narativ: „Tento měsíc jsi ušetřil 7 hodin, daňová rezerva pokrývá Q3.“</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">weekly brief</span><span class="chip">chat</span></div>
+            </div>
+            <div class="emo emo-pos">Úleva, pocit kontroly</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Přehlcení daty a grafy.</div>
+              <div class="opp"><b>Příležitost:</b> Narativní reporty místo tabulek.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Principles 2 -->
+    <div>
+      <h3>Design principy</h3>
+      <div class="principles">
+        <div class="principle"><div class="principle-num">01</div><div class="principle-title">AI navrhuje, člověk schvaluje</div><p class="principle-desc">Nikdy neběží destruktivní akce autonomně bez zelené AI-návrh → lidský confirm.</p></div>
+        <div class="principle"><div class="principle-num">02</div><div class="principle-title">Granulární úroveň autonomie</div><p class="principle-desc">Pro každou doménu (daně, investice, konverze) jde zvolit auto / návrh / manuál.</p></div>
+        <div class="principle"><div class="principle-num">03</div><div class="principle-title">Kontextové finance</div><p class="principle-desc">Banka rozumí pracovním nástrojům, ne jen transakcím.</p></div>
+        <div class="principle"><div class="principle-num">04</div><div class="principle-title">Narativní reporty</div><p class="principle-desc">„Ušetřil jsi 7 hodin“ místo pie chartu. Data v lidském jazyce.</p></div>
+        <div class="principle"><div class="principle-num">05</div><div class="principle-title">Audit trail pro každé AI rozhodnutí</div><p class="principle-desc">Proč to AI udělala, co zvažovala, co by udělala jinak — vždy dostupné.</p></div>
+      </div>
+    </div>
+
+    <!-- Impact / Risk 2 -->
+    <div class="imp-risk">
+      <div class="imp">
+        <h4>Přínos</h4>
+        <ul>
+          <li>Úspora odhadem 5–10 hodin administrativy měsíčně.</li>
+          <li>Lepší finanční rozhodnutí díky datovému kontextu (menší daňové překvapení).</li>
+          <li>Snížená bariéra podnikání — banka řeší kompliance proaktivně.</li>
+        </ul>
+      </div>
+      <div class="risk">
+        <h4>Rizika a dilemata</h4>
+        <ul>
+          <li>Over-reliance: uživatel přestane rozumět vlastním financím.</li>
+          <li>Vysvětlitelnost chyb AI — co když rozhodnutí způsobí ztrátu?</li>
+          <li>Regulace: kdo je zodpovědný za autonomní transakci (banka, uživatel, AI dodavatel)?</li>
+          <li>Datová závislost — koncept padá, pokud uživatel odmítne integrace.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== KONCEPT 3 ==================== -->
+  <section class="concept" id="c3">
+    <div class="concept-head">
+      <div>
+        <span class="badge badge-3">Koncept 03 · Společně</span>
+        <h2 style="margin-top:10px;">Rodinná platforma</h2>
+        <p class="concept-sub">Jeden účet pro tři generace. Sdílené, ale separované. Učí, ale nekontroluje.</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card card-accent-3">
+        <h4>Kontext a persona</h4>
+        <h3>Petra, 42 let</h3>
+        <ul class="persona-list">
+          <li><b>Role</b><span>Matka dvou dětí (8 a 14), marketingová manažerka</span></li>
+          <li><b>Motivace</b><span>Naučit děti hospodařit a pomoci stárnoucím rodičům</span></li>
+          <li><b>Chování</b><span>Organizátorka rodinných financí, multitasker, hodnotí transparentnost</span></li>
+          <li><b>Digitální gramotnost</b><span>Střední až vysoká</span></li>
+          <li><b>Situace</b><span>Syn (14) žádá o nákup hry za 1 200 Kč. Zároveň otec (72) zapomněl zaplatit elektřinu.</span></li>
+        </ul>
+      </div>
+      <div class="card card-accent-3">
+        <h4>Cíl a scénář</h4>
+        <span class="goal-chip">Za 1–2 minuty vyřešit oba rodinné podněty, bez konfliktu</span>
+        <p class="scenario-text">
+          Petra vidí na dashboardu žádost od syna se zdůvodněním („ušetřil jsem 800 Kč“). Schválí s poznámkou,
+          systém spustí krátkou lekci o budgetingu. Ve stejném okně vidí upozornění k otcově nezaplacené
+          faktuře. Jedním klikem otevře společný hovor a pomůže otci potvrdit platbu — bez toho, aby převzala
+          jeho účet.
+        </p>
+      </div>
+    </div>
+
+    <!-- Journey 3 -->
+    <div class="journey">
+      <div class="journey-header">
+        <h3>Customer journey — od přehledu k rodinnému dialogu</h3>
+        <span style="font-size:13px; color: var(--ink-mute);">← posouvejte vodorovně →</span>
+      </div>
+
+      <div class="emo-curve-wrap">
+        <span class="emo-curve-label">Emoční křivka</span>
+        <svg viewBox="0 0 1050 110" width="100%" height="110">
+          <defs>
+            <linearGradient id="g3" x1="0" x2="1">
+              <stop offset="0%" stop-color="#1F7F5A" stop-opacity="0.12"/>
+              <stop offset="100%" stop-color="#1F7F5A" stop-opacity="0.04"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="55" x2="1050" y2="55" stroke="#E6E6E0" stroke-dasharray="4 4"/>
+          <path d="M 20 50 Q 130 60 210 70 T 420 50 T 630 40 T 840 30 T 1030 25"
+                fill="none" stroke="#1F7F5A" stroke-width="2.5"/>
+          <path d="M 20 50 Q 130 60 210 70 T 420 50 T 630 40 T 840 30 T 1030 25 L 1030 110 L 20 110 Z"
+                fill="url(#g3)"/>
+          <circle cx="105" cy="55" r="5" fill="#1F7F5A"/>
+          <circle cx="315" cy="67" r="5" fill="#1F7F5A"/>
+          <circle cx="525" cy="48" r="5" fill="#1F7F5A"/>
+          <circle cx="735" cy="33" r="5" fill="#1F7F5A"/>
+          <circle cx="945" cy="26" r="5" fill="#1F7F5A"/>
+          <text x="0" y="18" font-size="10" fill="#8A8A8A">pozitivní</text>
+          <text x="0" y="60" font-size="10" fill="#8A8A8A">neutrální</text>
+          <text x="0" y="100" font-size="10" fill="#8A8A8A">negativní</text>
+        </svg>
+      </div>
+
+      <div class="journey-scroll">
+        <div class="journey-grid">
+
+          <div class="phase">
+            <span class="phase-num">01 · Zvažuje</span>
+            <div class="phase-title">Rodinný přehled</div>
+            <div class="phase-block"><h5>Krok</h5><p>Ranní kontrola dashboardu — vidí události rodiny, ne jen svoje.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">home widget</span><span class="chip">smart displej v kuchyni</span></div>
+            </div>
+            <div class="emo emo-neu">Přehled, odpovědnost</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Pocit sdíleného břemene.</div>
+              <div class="opp"><b>Příležitost:</b> Rozložení odpovědnosti mezi členy.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">02 · Spouští</span>
+            <div class="phase-title">Žádost dítěte</div>
+            <div class="phase-block"><h5>Krok</h5><p>Syn pošle žádost o nákup s vlastním zdůvodněním a spořicí historií.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">dětská app</span><span class="chip">rodinný chat</span></div>
+            </div>
+            <div class="emo emo-neg">Konflikt priorit</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Strach z konfrontace při odmítnutí.</div>
+              <div class="opp"><b>Příležitost:</b> Konstruktivní dialog, ne ano/ne.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">03 · Používá</span>
+            <div class="phase-title">Rozhoduje s kontextem</div>
+            <div class="phase-block"><h5>Krok</h5><p>Vidí spořicí historii syna, přispěje poznámkou, nastaví výukový modul.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">mobilní app</span><span class="chip">společný dashboard</span></div>
+            </div>
+            <div class="emo emo-neu">Vedení, spojení</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Balance mezi kontrolou a autonomií dítěte.</div>
+              <div class="opp"><b>Příležitost:</b> Výuka skrze realitu, ne abstrakci.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">04 · Dokončuje</span>
+            <div class="phase-title">Schválení + mikro-lekce</div>
+            <div class="phase-block"><h5>Krok</h5><p>Schválí nákup, systém nabídne synovi krátkou lekci o dopadu na jeho rozpočet.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">dětská app</span><span class="chip">rodičovská app</span></div>
+            </div>
+            <div class="emo emo-pos">Hrdost</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Nejasné dlouhodobé dopady.</div>
+              <div class="opp"><b>Příležitost:</b> Gamifikovaná progresivní autonomie.</div>
+            </div>
+          </div>
+
+          <div class="phase">
+            <span class="phase-num">05 · Následná péče</span>
+            <div class="phase-title">Rodinná rada</div>
+            <div class="phase-block"><h5>Krok</h5><p>Měsíční shrnutí u jídla — na displeji přehled celé rodiny, prostor k diskuzi.</p></div>
+            <div class="phase-block"><h5>Touchpointy</h5>
+              <div class="chips"><span class="chip">smart displej</span><span class="chip">sdílená app</span></div>
+            </div>
+            <div class="emo emo-pos">Sounáležitost</div>
+            <div class="pain-opp">
+              <div class="pain"><b>Pain:</b> Potenciální konflikty o utrácení.</div>
+              <div class="opp"><b>Příležitost:</b> Banka jako facilitátor rozhovorů, ne soudce.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Principles 3 -->
+    <div>
+      <h3>Design principy</h3>
+      <div class="principles">
+        <div class="principle"><div class="principle-num">01</div><div class="principle-title">Sdílené, ale separované</div><p class="principle-desc">Rodinný pohled existuje vedle osobní autonomie, ne místo ní.</p></div>
+        <div class="principle"><div class="principle-num">02</div><div class="principle-title">Učení skrze realitu</div><p class="principle-desc">Děti hospodaří s reálnými malými částkami, ne simulátory.</p></div>
+        <div class="principle"><div class="principle-num">03</div><div class="principle-title">Progresivní autonomie</div><p class="principle-desc">Více svobody roste s věkem a prokázanou odpovědností.</p></div>
+        <div class="principle"><div class="principle-num">04</div><div class="principle-title">Generační most</div><p class="principle-desc">Jedna platforma pro 7 i 77 let — UI se přizpůsobuje, ne účet.</p></div>
+        <div class="principle"><div class="principle-num">05</div><div class="principle-title">Facilitace, ne dohled</div><p class="principle-desc">Nástroje otevírají dialog, neposkytují kontrolní panel nad blízkými.</p></div>
+      </div>
+    </div>
+
+    <!-- Impact / Risk 3 -->
+    <div class="imp-risk">
+      <div class="imp">
+        <h4>Přínos</h4>
+        <ul>
+          <li>Finanční gramotnost dětí rostoucí z praxe, ne z učebnic.</li>
+          <li>Mezigenerační péče bez ztráty důstojnosti rodičů.</li>
+          <li>Redukce rodinných konfliktů díky sdíleným datům a jasným pravidlům.</li>
+        </ul>
+      </div>
+      <div class="risk">
+        <h4>Rizika a dilemata</h4>
+        <ul>
+          <li>Privacy paradox — co sdílet s partnerem, co s dětmi, co s rodiči?</li>
+          <li>Etika dohledu nad dospělými seniory — kde končí pomoc a začíná dozor?</li>
+          <li>Komplexita oprávnění: nastavení může být složitější než vlastní bankovnictví.</li>
+          <li>Riziko závislosti dětí na rodičovském schválení, místo rozvoje vlastního úsudku.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Synthesis -->
+  <section class="synthesis" id="synteza">
+    <h2>Syntéza — co spojuje všechny tři koncepty</h2>
+    <p class="lede" style="font-size:16px;">
+      Koncepty se liší tempem i úrovní asistence, ale sdílí podobnou DNA. Banka roku 2030 není aplikace — je to
+      vrstva, která rozumí kontextu uživatele, mluví jeho jazykem a umí se stáhnout do pozadí, když má.
+    </p>
+
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Dimenze</th>
+          <th style="color: var(--c1);">01 · Důvěra</th>
+          <th style="color: var(--c2);">02 · Autonomie</th>
+          <th style="color: var(--c3);">03 · Společně</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Primární kanál</td><td>Hlas</td><td>Ambient notifikace</td><td>Sdílený dashboard</td></tr>
+        <tr><td>Role AI</td><td>Asistent s vysvětlováním</td><td>Copilot, který navrhuje</td><td>Facilitátor dialogu</td></tr>
+        <tr><td>Úroveň autonomie</td><td>Nízká — člověk potvrzuje vše</td><td>Vysoká — delegace s auditem</td><td>Střední — pravidla + dohoda</td></tr>
+        <tr><td>Hlavní riziko</td><td>Paternalizace</td><td>Ztráta finančního povědomí</td><td>Narušení soukromí v rodině</td></tr>
+        <tr><td>Minimální podmínka úspěchu</td><td>Vysvětlitelnost každé akce</td><td>Granulární kontrola autonomie</td><td>Jasné hranice oprávnění</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:32px;">Společné předpoklady pro banku 2030</h3>
+    <div class="principles" style="margin-top:16px;">
+      <div class="principle"><div class="principle-num">A</div><div class="principle-title">Kontext &gt; funkce</div><p class="principle-desc">Banka musí rozumět, co se v životě uživatele právě děje. Bez kontextu nefunguje žádný ze tří konceptů.</p></div>
+      <div class="principle"><div class="principle-num">B</div><div class="principle-title">Vysvětlitelnost AI</div><p class="principle-desc">Bez toho, aby uživatel rozuměl „proč“, nevznikne důvěra ani v asistenci, ani v delegaci.</p></div>
+      <div class="principle"><div class="principle-num">C</div><div class="principle-title">Reverzibilita</div><p class="principle-desc">Každá akce AI musí jít vrátit. Undo není feature, je to základní princip.</p></div>
+      <div class="principle"><div class="principle-num">D</div><div class="principle-title">Multimodální rozhraní</div><p class="principle-desc">Hlas, obraz, gesto, text — uživatel volí kanál podle situace, ne podle designu.</p></div>
+      <div class="principle"><div class="principle-num">E</div><div class="principle-title">Lidský kontakt jako rovnocenný kanál</div><p class="principle-desc">Ne jako fallback při selhání, ale jako volitelná cesta pro složité situace.</p></div>
+    </div>
+
+    <h3 style="margin-top:32px;">Otevřené otázky k diskuzi</h3>
+    <ul style="font-size:15px; color: var(--ink-soft); line-height:1.7;">
+      <li>Jak daleko může banka sahat do kontextu uživatele, aniž by to bylo invazivní?</li>
+      <li>Kdo je zodpovědný za rozhodnutí autonomní AI — banka, uživatel, regulátor?</li>
+      <li>Je etické, aby banka „učila“ děti finanční gramotnost, když z toho profituje jako poskytovatel?</li>
+      <li>Jak zachovat přístupnost pro skupiny s nízkou digitální gramotností, když konkurence tlačí na efektivitu?</li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>
+  Konceptuální průzkum · Metodika: Double Diamond + HCD · Nízká až střední fidelita · 2026
+</footer>
+
+</body>
+</html>
