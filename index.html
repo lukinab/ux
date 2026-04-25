@@ -1,65 +1,4 @@
-const fs = require("fs");
-const path = require("path");
-
-// Složky, které přeskočíme
-const IGNORE = new Set(["node_modules", ".git", ".cloudflare"]);
-
-// Najdi všechny složky a v nich HTML soubory
-const sections = fs
-  .readdirSync(".")
-  .filter((f) => {
-    if (IGNORE.has(f) || f.startsWith(".")) return false;
-    return fs.statSync(f).isDirectory();
-  })
-  .map((dir) => {
-    const htmlFiles = fs
-      .readdirSync(dir)
-      .filter((f) => f.endsWith(".html"))
-      .map((f) => ({
-        name: f.replace(".html", ""),
-        path: `${encodeURIComponent(dir)}/${encodeURIComponent(f)}`,
-      }));
-    return { section: dir, items: htmlFiles };
-  })
-  .filter((s) => s.items.length > 0);
-
-if (sections.length === 0) {
-  console.log("Žádné složky s HTML soubory nenalezeny.");
-  process.exit(0);
-}
-
-// Generuj sekce HTML
-const sectionsHtml = sections
-  .map(
-    ({ section, items }) => `
-    <div class="card" data-section="${escapeHtml(section)}">
-      <div class="section-title">${escapeHtml(section)}</div>
-      <div class="divider"></div>
-      ${items
-        .map(
-          ({ name, path: href }, i) => `
-        ${i > 0 ? '<div class="divider file-divider"></div>' : ""}
-        <a class="item" href="${href}" data-name="${escapeHtml(name)}">
-          <span class="item-name">${escapeHtml(name)}</span>
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </a>`
-        )
-        .join("")}
-    </div>`
-  )
-  .join("\n");
-
-function escapeHtml(str) {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-const html = `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
@@ -190,12 +129,91 @@ const html = `<!DOCTYPE html>
     <input class="search-input" id="search" type="search" placeholder="Hledat…" autocomplete="off" />
   </div>
   <div class="content" id="content">
-    ${sectionsHtml}
+    
+    <div class="card" data-section="Banka 2030">
+      <div class="section-title">Banka 2030</div>
+      <div class="divider"></div>
+      
+        
+        <a class="item" href="Banka%202030/01%20Z%20pohledu%20u%C5%BEivatele.html" data-name="01 Z pohledu uživatele">
+          <span class="item-name">01 Z pohledu uživatele</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+        <div class="divider file-divider"></div>
+        <a class="item" href="Banka%202030/02%20Pil%C3%AD%C5%99e%20trhu%20-%20z%20pohledu%20banky.html" data-name="02 Pilíře trhu - z pohledu banky">
+          <span class="item-name">02 Pilíře trhu - z pohledu banky</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+        <div class="divider file-divider"></div>
+        <a class="item" href="Banka%202030/03%20Synte%CC%81za%20z%20pohledu%20u%C5%BEivatele%20a%20banky.html" data-name="03 Syntéza z pohledu uživatele a banky">
+          <span class="item-name">03 Syntéza z pohledu uživatele a banky</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+        <div class="divider file-divider"></div>
+        <a class="item" href="Banka%202030/04%20Design%20day%20koncepty.html" data-name="04 Design day koncepty">
+          <span class="item-name">04 Design day koncepty</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+    </div>
+
+    <div class="card" data-section="Platba klasický převod">
+      <div class="section-title">Platba klasický převod</div>
+      <div class="divider"></div>
+      
+        
+        <a class="item" href="Platba%20klasick%C3%BD%20p%C5%99evod/Jednokrokov%C3%A1%20platba.html" data-name="Jednokroková platba">
+          <span class="item-name">Jednokroková platba</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+        <div class="divider file-divider"></div>
+        <a class="item" href="Platba%20klasick%C3%BD%20p%C5%99evod/P%C5%99evod%20test.html" data-name="Převod test">
+          <span class="item-name">Převod test</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+    </div>
+
+    <div class="card" data-section="Sken faktur a QR kodu">
+      <div class="section-title">Sken faktur a QR kodu</div>
+      <div class="divider"></div>
+      
+        
+        <a class="item" href="Sken%20faktur%20a%20QR%20kodu/Skenov%C3%A1n%C3%AD%20faktury%20-%20segment%20control.html" data-name="Skenování faktury - segment control">
+          <span class="item-name">Skenování faktury - segment control</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+    </div>
+
+    <div class="card" data-section="VOP + SEPA instant">
+      <div class="section-title">VOP + SEPA instant</div>
+      <div class="divider"></div>
+      
+        
+        <a class="item" href="VOP%20%2B%20SEPA%20instant/Prototyp.html" data-name="Prototyp">
+          <span class="item-name">Prototyp</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+    </div>
   </div>
   <div class="no-results" id="no-results">Žádné výsledky</div>
   <script>
     function normalize(str) {
-      return str.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase();
+      return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     }
 
     document.getElementById('search').addEventListener('input', function () {
@@ -246,9 +264,4 @@ const html = `<!DOCTYPE html>
     });
   </script>
 </body>
-</html>`;
-
-fs.writeFileSync("index.html", html);
-console.log(
-  `✓ index.html vygenerován: ${sections.length} sekcí, ${sections.reduce((n, s) => n + s.items.length, 0)} prototypů`
-);
+</html>
