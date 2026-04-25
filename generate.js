@@ -77,7 +77,7 @@ const html = `<!DOCTYPE html>
     }
 
     .page-header {
-      padding: 56px 20px 8px;
+      padding: 24px 20px 8px;
       max-width: 430px;
       margin: 0 auto;
     }
