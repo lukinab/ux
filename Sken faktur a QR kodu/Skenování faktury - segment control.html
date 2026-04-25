@@ -1079,15 +1079,68 @@
 </p>
 
 <script>
-  function go(id) {
+  // Vykreslí obrazovku — bez zásahu do historie
+  function _renderScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+    const target = document.getElementById(id);
+    if (!target) return;
+    target.classList.add('active');
     // reset scan UI on re-entry
     if (id === 'screen-scan') {
       hideLoader();
       closeSheet();
     }
+    if (id === 'screen-ocr-verify' && typeof resetPhoto === 'function') {
+      resetPhoto();
+    }
   }
+
+  // Některé prostředí (sandboxované iframy, např. náhled v Claude) blokují history API.
+  // Pokusíme se ho použít, jinak pojedeme přes interní zásobník.
+  let historySupported = true;
+  function safePushState(state, url) {
+    if (!historySupported) return;
+    try { history.pushState(state, '', url); }
+    catch (err) { historySupported = false; }
+  }
+  function safeReplaceState(state, url) {
+    if (!historySupported) return;
+    try { history.replaceState(state, '', url); }
+    catch (err) { historySupported = false; }
+  }
+
+  // Interní zásobník navštívených obrazovek — slouží jako fallback i jako podklad pro popstate
+  const screenStack = [];
+
+  // Veřejná navigace
+  function go(id) {
+    _renderScreen(id);
+    if (screenStack[screenStack.length - 1] === id) return;
+    screenStack.push(id);
+    safePushState({ screen: id, idx: screenStack.length - 1 }, '#' + id);
+  }
+
+  // Zpět v prohlížeči/mobilu → vrať se na předchozí obrazovku v rámci prototypu
+  window.addEventListener('popstate', (e) => {
+    if (e.state && e.state.screen) {
+      // Sesynchronizuj zásobník s nově aktuálním indexem
+      const idx = typeof e.state.idx === 'number' ? e.state.idx : screenStack.length - 2;
+      screenStack.length = Math.max(0, idx + 1);
+      _renderScreen(e.state.screen);
+    } else {
+      _renderScreen('screen-dashboard');
+    }
+  });
+
+  // Při načtení nastav počáteční stav (podle URL hash, jinak dashboard)
+  (function initHistory() {
+    let hash = '';
+    try { hash = (location.hash || '').replace('#', ''); } catch (_) {}
+    const startId = (hash && document.getElementById(hash)) ? hash : 'screen-dashboard';
+    _renderScreen(startId);
+    screenStack.push(startId);
+    safeReplaceState({ screen: startId, idx: 0 }, '#' + startId);
+  })();
 
   let mode = 'auto';
   function setMode(m) {
@@ -1205,12 +1258,7 @@
     });
   })();
 
-  // Reset photo state when entering the OCR verify screen
-  const origGo = go;
-  go = function(id) {
-    origGo(id);
-    if (id === 'screen-ocr-verify') resetPhoto();
-  };
+  // (reset fotky je nyní řešen uvnitř _renderScreen)
 </script>
 
 </body>
