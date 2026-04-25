@@ -1550,6 +1550,19 @@ window.addEventListener('popstate', (e) => {
   trackPage('platba_jednokrokova_' + id.replace('screen-', '') + '_back');
 });
 
+
+// Obnova obrazovky z URL hash při refresh
+(function() {
+  const hash = window.location.hash.replace('#', '');
+  if (hash) {
+    const screenId = 'screen-' + hash;
+    const el = document.getElementById(screenId);
+    if (el) {
+      showScreen(screenId, { skipHistory: true });
+      history.replaceState({ screen: screenId }, '', window.location.hash);
+    }
+  }
+})();
 /* ------------------------------------------------------------------ */
 /*  RECENT CONTACTS                                                     */
 /* ------------------------------------------------------------------ */

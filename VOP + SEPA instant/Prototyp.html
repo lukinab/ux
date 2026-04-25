@@ -1541,6 +1541,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   window._origGoTo = origGoTo;
+
+  // Obnova obrazovky z URL hash při refresh
+  const initialHash = window.location.hash.replace('#', '');
+  if (initialHash && document.getElementById(initialHash)) {
+    goTo(initialHash);
+  }
 });
 </script>
 </body>
