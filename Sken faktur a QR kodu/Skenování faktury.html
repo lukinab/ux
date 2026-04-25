@@ -636,40 +636,47 @@
   /* Mobile: skryj okolní prvky a roztáhni prototyp na celou obrazovku */
   @media (max-width: 640px) {
     html, body {
-      padding: 0;
-      background: var(--bg);
-      gap: 0;
-      height: 100%;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: var(--bg) !important;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 0 !important;
+      display: block !important;
       overflow: hidden;
     }
     h1, .subtitle, .controls, .legend {
       display: none !important;
     }
     .stage {
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      max-height: none;
-      border-radius: 0;
-      border: none;
-      box-shadow: none;
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      max-width: none !important;
+      max-height: none !important;
+      border-radius: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
     }
     /* Bezpečné zóny pro telefony s notchem */
     .topbar {
-      padding-top: env(safe-area-inset-top, 0);
-      height: calc(56px + env(safe-area-inset-top, 0));
+      padding-top: calc(env(safe-area-inset-top, 0px));
+      height: calc(56px + env(safe-area-inset-top, 0px));
     }
     .fab {
-      bottom: calc(16px + env(safe-area-inset-bottom, 0));
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     }
     .bottom-bar {
-      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0));
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     }
     .cam-top {
-      padding-top: calc(10px + env(safe-area-inset-top, 0));
+      padding-top: calc(10px + env(safe-area-inset-top, 0px));
     }
     .cam-bottom {
-      padding-bottom: calc(16px + env(safe-area-inset-bottom, 0));
+      padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     }
   }
 </style>
