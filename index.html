@@ -327,16 +327,22 @@
     });
 
     // Detekce nových verzí
+    function checkBadges() {
+      document.querySelectorAll('a.item[data-modified]').forEach(function (link) {
+        var href = link.getAttribute('href');
+        var modified = parseInt(link.getAttribute('data-modified'), 10);
+        var key = 'seen__' + href;
+        var seen = parseInt(localStorage.getItem(key) || '0', 10);
+        link.querySelector('.badge-new').style.display = (modified > seen) ? 'inline-block' : 'none';
+      });
+    }
+
+    // Spustí se při načtení i při návratu zpět (bfcache)
+    window.addEventListener('pageshow', checkBadges);
+
     document.querySelectorAll('a.item[data-modified]').forEach(function (link) {
-      var href = link.getAttribute('href');
-      var modified = parseInt(link.getAttribute('data-modified'), 10);
-      var key = 'seen__' + href;
-      var seen = parseInt(localStorage.getItem(key) || '0', 10);
-      if (modified > seen) {
-        link.querySelector('.badge-new').style.display = 'inline-block';
-      }
       link.addEventListener('click', function () {
-        localStorage.setItem(key, Date.now().toString());
+        localStorage.setItem('seen__' + link.getAttribute('href'), Date.now().toString());
       });
     });
 
