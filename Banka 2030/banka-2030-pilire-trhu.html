@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banka 2030 — 3 strategické pilíře (pohled trhu)</title>
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-mute: #8A8A8A;
+    --line: #E6E6E0;
+    --card: #FFFFFF;
+    --p1: #8B2E2E;   /* Důvěra */
+    --p1-soft: #F6E6E6;
+    --p2: #1B7A86;   /* Ambient */
+    --p2-soft: #DFF0F2;
+    --p3: #6B3FA0;   /* Cognitive */
+    --p3-soft: #ECE3F5;
+    --pain: #B83A3A;
+    --pain-soft: #FBEAEA;
+    --opp: #1F7F5A;
+    --opp-soft: #E2F2EA;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 28px; }
+  header.hero {
+    border-bottom: 1px solid var(--line);
+    padding: 60px 28px 44px;
+    background: linear-gradient(180deg, #FFF 0%, var(--bg) 100%);
+  }
+  .hero-inner { max-width: 1200px; margin: 0 auto; }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+  h1 {
+    font-size: 44px;
+    line-height: 1.1;
+    margin: 12px 0 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 820px;
+    margin: 0 0 24px;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .meta-row b { color: var(--ink); font-weight: 600; }
+
+  nav.toc {
+    position: sticky;
+    top: 0;
+    background: rgba(250, 250, 247, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    z-index: 10;
+    padding: 14px 28px;
+  }
+  .toc-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    align-items: center;
+    font-size: 14px;
+  }
+  .toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .toc a:hover { background: var(--line); color: var(--ink); }
+  .toc-label { color: var(--ink-mute); font-weight: 600; }
+
+  h2 { font-size: 32px; letter-spacing: -0.01em; margin: 0 0 8px; font-weight: 700; }
+  h3 { font-size: 20px; margin: 0 0 10px; font-weight: 600; }
+  h4 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 10px;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+
+  /* Trends overview */
+  .trends {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 32px 0 60px;
+  }
+  .trend {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .trend-num {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+  }
+  .trend h3 { font-size: 17px; margin-bottom: 8px; }
+  .trend p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+
+  /* Pillar overview */
+  .trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 32px 0 40px;
+  }
+  .trio .tile {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .trio .tile:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .trio .accent { width: 40px; height: 4px; border-radius: 2px; margin-bottom: 14px; }
+  .trio .tile h3 { margin-bottom: 4px; }
+  .trio .tile p { margin: 6px 0 0; font-size: 14px; color: var(--ink-soft); }
+  .tile-tag {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  /* Pillar section */
+  .pillar {
+    margin: 80px 0;
+    padding-top: 12px;
+    scroll-margin-top: 72px;
+  }
+  .pillar-head {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .badge {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    display: inline-block;
+  }
+  .badge-1 { background: var(--p1-soft); color: var(--p1); }
+  .badge-2 { background: var(--p2-soft); color: var(--p2); }
+  .badge-3 { background: var(--p3-soft); color: var(--p3); }
+
+  .pillar-sub { color: var(--ink-soft); font-size: 17px; margin-top: 6px; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .card-accent-1 { border-top: 3px solid var(--p1); }
+  .card-accent-2 { border-top: 3px solid var(--p2); }
+  .card-accent-3 { border-top: 3px solid var(--p3); }
+
+  .context-text, .goal-text { font-size: 15px; color: var(--ink-soft); margin: 10px 0 0; }
+  .goal-chip {
+    display: inline-block;
+    background: var(--ink);
+    color: #FFF;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+  .driver-list {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+  }
+  .driver-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 14px;
+    color: var(--ink);
+    display: flex;
+    gap: 10px;
+  }
+  .driver-list li:last-child { border: 0; }
+  .driver-list li::before {
+    content: "→";
+    color: var(--ink-mute);
+    font-weight: 700;
+  }
+
+  /* Capability stack */
+  .cap-section { margin: 40px 0; }
+  .cap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .cap-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .cap-layer {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 20px;
+    padding: 16px;
+    border-radius: 10px;
+    align-items: start;
+  }
+  .cap-layer-head h5 {
+    margin: 0 0 4px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+  .cap-layer-head p {
+    font-size: 12px;
+    color: var(--ink-mute);
+    margin: 0;
+    line-height: 1.4;
+  }
+  .cap-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .cap-item {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .cap-item b { font-size: 13.5px; display: block; margin-bottom: 4px; }
+  .cap-item span { font-size: 12.5px; color: var(--ink-soft); line-height: 1.45; }
+
+  /* Pillar-specific layer accents */
+  .pillar-1 .cap-layer { background: #FAF2F2; }
+  .pillar-1 .cap-layer-head h5 { color: var(--p1); }
+  .pillar-2 .cap-layer { background: #EEF6F7; }
+  .pillar-2 .cap-layer-head h5 { color: var(--p2); }
+  .pillar-3 .cap-layer { background: #F3EDF8; }
+  .pillar-3 .cap-layer-head h5 { color: var(--p3); }
+
+  /* Principles */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 16px 0 0;
+  }
+  .principle {
+    padding: 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .principle-num { font-size: 12px; font-weight: 700; color: var(--ink-mute); margin-bottom: 6px; }
+  .principle-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+  .principle-desc { font-size: 13.5px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+
+  .imp-risk {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 18px;
+  }
+  .imp {
+    background: var(--opp-soft);
+    border: 1px solid #CDE7D8;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .risk {
+    background: var(--pain-soft);
+    border: 1px solid #EDCDCD;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .imp h4, .risk h4 { color: var(--ink); }
+  .imp-risk ul { margin: 8px 0 0; padding-left: 20px; }
+  .imp-risk li { font-size: 14px; line-height: 1.55; margin-bottom: 6px; color: var(--ink); }
+
+  /* Synthesis */
+  section.synthesis {
+    margin: 100px 0 60px;
+    padding: 40px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+
+  /* Interaction diagram */
+  .venn {
+    display: block;
+    margin: 24px auto;
+    max-width: 560px;
+  }
+
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  table.compare th, table.compare td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.compare th {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    font-weight: 600;
+  }
+  table.compare td:first-child { font-weight: 600; width: 22%; color: var(--ink); }
+
+  /* Investment roadmap */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .phase-card {
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--card);
+  }
+  .phase-card h5 {
+    margin: 0 0 6px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    font-weight: 700;
+  }
+  .phase-card b { display: block; font-size: 15px; margin-bottom: 8px; }
+  .phase-card p { margin: 0; font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 28px;
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 13px;
+  }
+
+  @media (max-width: 820px) {
+    h1 { font-size: 32px; }
+    h2 { font-size: 26px; }
+    .trio, .two-col, .imp-risk, .trends, .roadmap { grid-template-columns: 1fr; }
+    .cap-layer { grid-template-columns: 1fr; }
+    .toc { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Strategický průzkum · pohled banky a trhu</span>
+    <h1>Banka 2030: tři pilíře, bez kterých hra nejde vyhrát</h1>
+    <p class="lede">
+      Pokud otočíme pohled z uživatele na trh, otázka se mění. Už to není „co bude uživatel chtít“, ale
+      „co bude muset banka umět, aby vůbec přežila“. Analýza dospěla ke třem schopnostem, které stojí nad
+      všemi ostatními — nejsou to produktové funkce, ale infrastruktura, distribuční model a inteligence.
+    </p>
+    <div class="meta-row">
+      <span><b>Horizont:</b> 2030</span>
+      <span><b>Perspektiva:</b> banka / trh</span>
+      <span><b>Výstup:</b> 3 pilíře, capability stack, investiční priority</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <span class="toc-label">Pilíře →</span>
+    <a href="#trendy">Makro trendy</a>
+    <a href="#p1">1. Důvěra</a>
+    <a href="#p2">2. Kontextové bankovnictví</a>
+    <a href="#p3">3. Kognitivní jádro</a>
+    <a href="#synteza">Syntéza a roadmapa</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- Trends -->
+  <section id="trendy">
+    <h2>Co se do roku 2030 mění</h2>
+    <p class="lede" style="font-size:16px;">
+      Tři makro síly přepisují pravidla trhu. Každý ze tří pilířů je přímou odpovědí na jednu z nich.
+    </p>
+    <div class="trends">
+      <div class="trend">
+        <div class="trend-num">Trend A</div>
+        <h3>Kolaps digitální důvěry</h3>
+        <p>Deepfakes, syntetická identita, AI-generované phishing kampaně a blížící se quantum hrozba rozpouštějí klasickou bezpečnost. Uživatelé přestávají věřit obrazu, hlasu i textu. Kdo dokáže být „garantem pravdy“, získává zásadní pozici.</p>
+      </div>
+      <div class="trend">
+        <div class="trend-num">Trend B</div>
+        <h3>Bankovnictví mizí z vlastní appky</h3>
+        <p>Platby, financování a správa se stěhují do kontextu (práce, mobilita, zdraví, nákupy). Platformy se stávají distribučním kanálem bank. Kdo není přítomný, stává se komoditou a tratí přímý vztah se zákazníkem.</p>
+      </div>
+      <div class="trend">
+        <div class="trend-num">Trend C</div>
+        <h3>AI jako očekávaná vrstva</h3>
+        <p>Regulace (EU AI Act, DORA) vyžadují vysvětlitelnost a governance. Uživatelé chtějí delegovat rozhodnutí, ale bez ztráty kontroly. Banky, které mají AI jen „na povrchu“, budou předběhnuty těmi, které ji staví jako jádro.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section>
+    <h2>Tři pilíře úspěchu</h2>
+    <div class="trio">
+      <a href="#p1" class="tile">
+        <div class="accent" style="background: var(--p1);"></div>
+        <span class="tile-tag" style="color: var(--p1);">Pilíř 01 · Odpověď na trend A</span>
+        <h3>Důvěra jako infrastruktura</h3>
+        <p>Banka jako „last line of truth“ — vrstva, které lidé věří, když všechno ostatní může být podvrh.</p>
+      </a>
+      <a href="#p2" class="tile">
+        <div class="accent" style="background: var(--p2);"></div>
+        <span class="tile-tag" style="color: var(--p2);">Pilíř 02 · Odpověď na trend B</span>
+        <h3>Kontextové bankovnictví</h3>
+        <p>Banka přítomná tam, kde se děje život — ne tam, kde se tradičně děje bankovnictví.</p>
+      </a>
+      <a href="#p3" class="tile">
+        <div class="accent" style="background: var(--p3);"></div>
+        <span class="tile-tag" style="color: var(--p3);">Pilíř 03 · Odpověď na trend C</span>
+        <h3>Kognitivní jádro s delegací</h3>
+        <p>AI-native platforma, která rozumí kontextu, vysvětluje a přijímá delegované akce s auditem.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- =========== PILLAR 1 =========== -->
+  <section class="pillar pillar-1" id="p1">
+    <div class="pillar-head">
+      <div>
+        <span class="badge badge-1">Pilíř 01 · Důvěra jako infrastruktura</span>
+        <h2 style="margin-top:10px;">Last line of truth</h2>
+        <p class="pillar-sub">Ve světě, kde hlas i obraz mohou být syntetické, je banka posledním místem, kde pravda stojí na pevné půdě.</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card card-accent-1">
+        <h4>Kontext trhu</h4>
+        <p class="context-text">
+          Do roku 2030 budou deepfakes a syntetická identita dostupné komukoli. Tradiční bezpečnost (heslo +
+          SMS) přestává fungovat. Regulace (EU AI Act, DORA, eIDAS 2) tlačí na vyšší úroveň ochrany a
+          vysvětlitelnosti rozhodnutí. Kvantové počítače začínají ohrožovat dnešní kryptografii.
+        </p>
+        <ul class="driver-list">
+          <li>Fraud ztráty napříč sektorem rostou dvouciferně</li>
+          <li>Zákazníci ztrácí důvěru v online komunikaci obecně</li>
+          <li>Regulátoři vyžadují vysvětlitelnost bezpečnostních rozhodnutí</li>
+          <li>Post-quantum přechod se stává nutností, ne volbou</li>
+        </ul>
+      </div>
+      <div class="card card-accent-1">
+        <h4>Strategický cíl banky</h4>
+        <span class="goal-chip">Stát se vrstvou, která garantuje pravdivost identity a transakce</span>
+        <p class="goal-text">
+          Banka nemusí být nejlevnější ani nejrychlejší — musí být ta, které se dá věřit, když je nejhůř.
+          To znamená posunout bezpečnost z nákladové položky na produktovou výhodu a udělat důvěru
+          viditelnou, ne jen implicitní.
+        </p>
+      </div>
+    </div>
+
+    <!-- Capability stack -->
+    <div class="cap-section">
+      <div class="cap-header">
+        <h3>Capability stack — co musí banka postavit</h3>
+        <span style="font-size:13px; color: var(--ink-mute);">4 vrstvy od zákazníka k infrastruktuře</span>
+      </div>
+      <div class="cap-stack">
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Zákaznická vrstva</h5>
+            <p>Co zákazník vidí a cítí.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Viditelné signály důvěry</b><span>Indikátor „ověřeno bankou“ na všech transakcích a komunikaci.</span></div>
+            <div class="cap-item"><b>Verifikovaná identita jako služba</b><span>Uživatel používá bankovní identitu na partnerských platformách.</span></div>
+            <div class="cap-item"><b>Human-verifiable audit</b><span>Lidský přehled všeho, co AI udělala jeho jménem.</span></div>
+          </div>
+        </div>
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Služby &amp; platforma</h5>
+            <p>Procesy a API, které nesou důvěru.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Continuous behavioral biometrie</b><span>Ověření běží nepřetržitě, ne jen při loginu.</span></div>
+            <div class="cap-item"><b>Anti-deepfake detekce</b><span>Reálný čas, multimodální (hlas, obraz, text).</span></div>
+            <div class="cap-item"><b>Explainable fraud engine</b><span>Každé zablokování má srozumitelný důvod pro zákazníka i regulátora.</span></div>
+          </div>
+        </div>
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Data &amp; AI</h5>
+            <p>Inteligence, která rozhoduje a učí se.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Federovaná detekce mezi bankami</b><span>Sdílení signálů bez sdílení dat (privacy-preserving ML).</span></div>
+            <div class="cap-item"><b>Model risk management</b><span>Governance AI podle EU AI Actu — lineage, testing, monitoring.</span></div>
+            <div class="cap-item"><b>Kontextové risk skóre</b><span>Dynamické, vysvětlitelné, reagující na typ transakce a prostředí.</span></div>
+          </div>
+        </div>
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Infrastruktura</h5>
+            <p>Technologické základy, bez nich nic nejede.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Post-quantum kryptografie</b><span>Migrace před tím, než quantum hrozba dozraje.</span></div>
+            <div class="cap-item"><b>Zero-knowledge proofs</b><span>Ověření bez odhalení citlivých dat.</span></div>
+            <div class="cap-item"><b>Hardware security moduly</b><span>Klíče chráněné hardwarovou izolací, federovaná důvěra.</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h3>Design principy</h3>
+      <div class="principles">
+        <div class="principle"><div class="principle-num">01</div><div class="principle-title">Důvěra se ukazuje, ne předpokládá</div><p class="principle-desc">Každý signál bezpečnosti je viditelný uživateli, ne skrytý v logu.</p></div>
+        <div class="principle"><div class="principle-num">02</div><div class="principle-title">Obnovitelná bezpečnost</div><p class="principle-desc">Kryptografii, biometrii i modely lze rotovat bez přerušení služby.</p></div>
+        <div class="principle"><div class="principle-num">03</div><div class="principle-title">Každé rozhodnutí má své „proč“</div><p class="principle-desc">Uživatel i regulátor dostanou srozumitelné odůvodnění.</p></div>
+        <div class="principle"><div class="principle-num">04</div><div class="principle-title">Sdílená obrana mezi bankami</div><p class="principle-desc">Spolupráce v detekci podvodů je výhoda, ne ztráta konkurence.</p></div>
+        <div class="principle"><div class="principle-num">05</div><div class="principle-title">Privacy by design</div><p class="principle-desc">Co nepotřebujeme, nesbíráme. Co sbíráme, umíme vysvětlit.</p></div>
+      </div>
+    </div>
+
+    <div class="imp-risk">
+      <div class="imp">
+        <h4>Přínos</h4>
+        <ul>
+          <li>Diferenciace jako „trust-first bank“ v komoditizovaném trhu.</li>
+          <li>Pokles fraud ztrát a souvisejících reputačních rizik.</li>
+          <li>Nová revenue linie — monetizace identity jako služby pro partnery.</li>
+          <li>Pre-compliance s regulací místo dohánění.</li>
+        </ul>
+      </div>
+      <div class="risk">
+        <h4>Rizika a dilemata</h4>
+        <ul>
+          <li>Vysoké upfront investice bez okamžitého revenue.</li>
+          <li>UX friction — bezpečnost a rychlost jsou často v konfliktu.</li>
+          <li>False positives v AI detekci mohou odradit zákazníky.</li>
+          <li>Závislost na standardech (post-quantum, biometrie) a jejich zralosti.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== PILLAR 2 =========== -->
+  <section class="pillar pillar-2" id="p2">
+    <div class="pillar-head">
+      <div>
+        <span class="badge badge-2">Pilíř 02 · Kontextové bankovnictví</span>
+        <h2 style="margin-top:10px;">Banka všude, kde se děje život</h2>
+        <p class="pillar-sub">Pokud zákazník přestává otevírat bankovní aplikaci, musí být banka uvnitř aplikací, které otevírá.</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card card-accent-2">
+        <h4>Kontext trhu</h4>
+        <p class="context-text">
+          Embedded finance a Banking-as-a-Service nejsou trend, jsou novou normou. Platformy pro práci,
+          mobilitu, zdraví a obchod se stávají distribučními kanály bank. Pokud banka není přítomná
+          v kontextu uživatele, stává se nevyhnutelnou komoditou.
+        </p>
+        <ul class="driver-list">
+          <li>Uživatelé otevírají bankovní appku méně často, ale transakcí nepřibývá</li>
+          <li>Big tech a retail platformy nabízejí finanční služby jako doplněk</li>
+          <li>Open banking se posunul od compliance k business modelu</li>
+          <li>Real-time settlement napříč zeměmi přestává být luxus</li>
+        </ul>
+      </div>
+      <div class="card card-accent-2">
+        <h4>Strategický cíl banky</h4>
+        <span class="goal-chip">Být infrastrukturou života — neviditelná, ale všudypřítomná</span>
+        <p class="goal-text">
+          Banka se stává „lego dílem“, který zapadá do cizích zkušeností. Zisk neplyne z toho, kolik lidí
+          chodí do její appky, ale z toho, kolik transakcí teče přes její rails v partnerských kontextech.
+          Přímý vztah se zákazníkem se udržuje přes identitu a důvěru, ne přes UI.
+        </p>
+      </div>
+    </div>
+
+    <div class="cap-section">
+      <div class="cap-header">
+        <h3>Capability stack — co musí banka postavit</h3>
+        <span style="font-size:13px; color: var(--ink-mute);">4 vrstvy od zákazníka k infrastruktuře</span>
+      </div>
+      <div class="cap-stack">
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Zákaznická vrstva</h5>
+            <p>Co zákazník zažívá v partnerských platformách.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Neviditelná finanční UX</b><span>Zaplatit, ušetřit, investovat bez opouštění kontextu.</span></div>
+            <div class="cap-item"><b>Jednotná identita</b><span>Jeden profil napříč všemi partnerskými platformami.</span></div>
+            <div class="cap-item"><b>Kontextové shrnutí</b><span>Banka ukáže souvislosti z různých platforem na jednom místě.</span></div>
+          </div>
+        </div>
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Služby &amp; platforma</h5>
+            <p>Stavební bloky pro integrátory.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Composable banking APIs</b><span>Payments, credit, savings, compliance jako samostatné moduly.</span></div>
+            <div class="cap-item"><b>Orchestration engine</b><span>Sklouben pohyb peněz napříč partnery v reálném čase.</span></div>
+            <div class="cap-item"><b>Developer self-service</b><span>Onboarding partnera v hodinách, ne měsících.</span></div>
+          </div>
+        </div>
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Data &amp; AI</h5>
+            <p>Inteligence, která těží z průřezového kontextu.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Cross-context risk profiling</b><span>Dynamický limit a skóre podle souběhu aktivit napříč platformami.</span></div>
+            <div class="cap-item"><b>Event-driven services</b><span>Banka reaguje na signály z partnerů (faktura, rezervace, objednávka).</span></div>
+            <div class="cap-item"><b>Unified customer graph</b><span>Jeden pohled na zákazníka i tam, kde se chová přes partnery.</span></div>
+          </div>
+        </div>
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Infrastruktura</h5>
+            <p>Rails, bez nichž kontextové platby nefungují.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Instant payment rails</b><span>24/7, cross-border, near-zero latency.</span></div>
+            <div class="cap-item"><b>Open banking v2</b><span>Nejen data, ale i akce a odběry (write-APIs, PSD3 úroveň).</span></div>
+            <div class="cap-item"><b>CBDC-ready vrstva</b><span>Připravenost na digitální centrální měny, kde vzniknou.</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h3>Design principy</h3>
+      <div class="principles">
+        <div class="principle"><div class="principle-num">01</div><div class="principle-title">Banka jako lego, ne monolit</div><p class="principle-desc">Každá schopnost musí být použitelná samostatně přes API.</p></div>
+        <div class="principle"><div class="principle-num">02</div><div class="principle-title">Partnership-first</div><p class="principle-desc">Partneři mají přednost před vlastním UI — růst jde přes distribuci.</p></div>
+        <div class="principle"><div class="principle-num">03</div><div class="principle-title">Jednotná identita napříč kontexty</div><p class="principle-desc">Jeden zákazník = jedna identita, ať už bankuje kdekoli.</p></div>
+        <div class="principle"><div class="principle-num">04</div><div class="principle-title">Real-time jako default</div><p class="principle-desc">Žádné batch zpracování — vše, co jde, běží v reálném čase.</p></div>
+        <div class="principle"><div class="principle-num">05</div><div class="principle-title">Hluboká integrace &gt; povrchové API</div><p class="principle-desc">Nestačí API vystavit — partner musí mít cestu k produktové integraci.</p></div>
+      </div>
+    </div>
+
+    <div class="imp-risk">
+      <div class="imp">
+        <h4>Přínos</h4>
+        <ul>
+          <li>Nové distribuční kanály bez nutnosti vlastního akvizičního maratonu.</li>
+          <li>Vyšší engagement přes vyšší počet touchpointů.</li>
+          <li>Nižší CAC a vyšší LTV díky kontextovým datům.</li>
+          <li>Nové revenue modely (licence, revenue share, risk-as-a-service).</li>
+        </ul>
+      </div>
+      <div class="risk">
+        <h4>Rizika a dilemata</h4>
+        <ul>
+          <li>Komoditizace značky — zákazník vidí partnera, ne banku.</li>
+          <li>Ztráta přímého vztahu a možnosti cross-sell.</li>
+          <li>Závislost na partnerech a jejich compliance úrovni.</li>
+          <li>Kanibalizace vlastního B2C kanálu.</li>
+          <li>Governance partnerského ekosystému = nová náročná disciplína.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== PILLAR 3 =========== -->
+  <section class="pillar pillar-3" id="p3">
+    <div class="pillar-head">
+      <div>
+        <span class="badge badge-3">Pilíř 03 · Kognitivní jádro s delegací</span>
+        <h2 style="margin-top:10px;">AI, která rozumí, vysvětluje a přijímá úkoly</h2>
+        <p class="pillar-sub">Ne chatbot nalepený na starý systém, ale jádro, okolo kterého se staví vše ostatní.</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card card-accent-3">
+        <h4>Kontext trhu</h4>
+        <p class="context-text">
+          AI přestává být diferenciátorem — je to očekávaná vrstva. Diferenciace je v tom, jak hluboce AI
+          rozumí kontextu, jak dobře umí vysvětlit své rozhodnutí a kolik akcí jí uživatel může bezpečně
+          delegovat. Regulace (EU AI Act) posunuje vysvětlitelnost z best-practice do povinnosti.
+        </p>
+        <ul class="driver-list">
+          <li>Chatboty bez kontextu přestávají mít konkurenční efekt</li>
+          <li>Uživatelé chtějí delegovat rutinní rozhodnutí, ale nechtějí ztratit kontrolu</li>
+          <li>EU AI Act klasifikuje finanční AI jako vysoce rizikovou</li>
+          <li>Data sovereignty se stává součástí hodnotové nabídky</li>
+        </ul>
+      </div>
+      <div class="card card-accent-3">
+        <h4>Strategický cíl banky</h4>
+        <span class="goal-chip">Postavit AI-native platformu, která rozumí, vysvětluje a respektuje agency</span>
+        <p class="goal-text">
+          Každý produkt a proces vzniká nad sdíleným kognitivním jádrem. AI není funkce — je to substrát.
+          Uživatel si volí úroveň autonomie, banka garantuje vysvětlitelnost a data sovereignty.
+          Konkurenční výhoda není v modelech, ale v kvalitě kontextu a governance.
+        </p>
+      </div>
+    </div>
+
+    <div class="cap-section">
+      <div class="cap-header">
+        <h3>Capability stack — co musí banka postavit</h3>
+        <span style="font-size:13px; color: var(--ink-mute);">4 vrstvy od zákazníka k infrastruktuře</span>
+      </div>
+      <div class="cap-stack">
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Zákaznická vrstva</h5>
+            <p>Jak uživatel AI ovládá a rozumí jí.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Multimodální konverzace</b><span>Hlas, text, obraz, gesto — jeden kontext napříč kanály.</span></div>
+            <div class="cap-item"><b>Ovladatelná autonomie</b><span>Uživatel volí „auto / návrh / ručně“ pro každou doménu.</span></div>
+            <div class="cap-item"><b>Vysvětlovací panel</b><span>Každé rozhodnutí AI má dostupný panel „proč tohle“.</span></div>
+          </div>
+        </div>
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Služby &amp; platforma</h5>
+            <p>Architektura, na které stojí produkty.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Agent framework</b><span>AI agenti plní úkoly s jasnými hranicemi oprávnění.</span></div>
+            <div class="cap-item"><b>Delegation engine</b><span>Uživatel může udělit / odebrat mandát kdykoli a granulárně.</span></div>
+            <div class="cap-item"><b>Decision audit trail</b><span>Každé rozhodnutí AI je dohledatelné a reverzibilní.</span></div>
+          </div>
+        </div>
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Data &amp; AI</h5>
+            <p>Mozek platformy.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>Customer knowledge graph</b><span>Propojený pohled na život zákazníka s kontrolou privátnosti.</span></div>
+            <div class="cap-item"><b>Continuous learning</b><span>Model se učí z feedbacku, ale bez úniku osobních dat (on-device, federovaně).</span></div>
+            <div class="cap-item"><b>Data sovereignty layer</b><span>Uživatel vidí a ovládá, co model o něm ví.</span></div>
+          </div>
+        </div>
+
+        <div class="cap-layer">
+          <div class="cap-layer-head">
+            <h5>Infrastruktura</h5>
+            <p>Governance, bez které AI nesmí jít do provozu.</p>
+          </div>
+          <div class="cap-items">
+            <div class="cap-item"><b>AI governance platform</b><span>Lineage, testing, monitoring, rollback — standard, ne projekt.</span></div>
+            <div class="cap-item"><b>Model risk management</b><span>Proces pro validaci, A/B, detekci driftu.</span></div>
+            <div class="cap-item"><b>Compute &amp; MLOps</b><span>Škálovatelná tréninková a inference infra, vč. hybrid cloud.</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <h3>Design principy</h3>
+      <div class="principles">
+        <div class="principle"><div class="principle-num">01</div><div class="principle-title">AI jako copilot, člověk jako kapitán</div><p class="principle-desc">Autonomie je dar uživatele, ne nastavení banky.</p></div>
+        <div class="principle"><div class="principle-num">02</div><div class="principle-title">Vysvětlení PŘED akcí</div><p class="principle-desc">Uživatel ví, proč AI něco chce, dřív než se to stane.</p></div>
+        <div class="principle"><div class="principle-num">03</div><div class="principle-title">Reverzibilita jako výchozí stav</div><p class="principle-desc">Každá AI akce má undo, každý mandát jde odebrat.</p></div>
+        <div class="principle"><div class="principle-num">04</div><div class="principle-title">Data patří uživateli</div><p class="principle-desc">Model se učí od uživatele, ale data zůstávají jeho.</p></div>
+        <div class="principle"><div class="principle-num">05</div><div class="principle-title">Governance není zpomalení, je produkt</div><p class="principle-desc">Ověřitelnost AI je součást hodnotové nabídky, ne brzda vývoje.</p></div>
+      </div>
+    </div>
+
+    <div class="imp-risk">
+      <div class="imp">
+        <h4>Přínos</h4>
+        <ul>
+          <li>Personalizace v měřítku bez lineárních nákladů na obsluhu.</li>
+          <li>Nové služby (coaching, auto-investing, tax orchestration) bez nutnosti najímat armádu specialistů.</li>
+          <li>Pre-compliance s EU AI Actem jako konkurenční výhoda.</li>
+          <li>Vyšší customer lifetime value díky hloubce vztahu.</li>
+        </ul>
+      </div>
+      <div class="risk">
+        <h4>Rizika a dilemata</h4>
+        <ul>
+          <li>Model risk a reputační dopad chyby AI.</li>
+          <li>Regulatorní nejistota (AI Act se během implementace bude měnit).</li>
+          <li>Riziko „over-automation“ a ztráty lidského úsudku v bance.</li>
+          <li>Privacy tlak — čím chytřejší AI, tím víc dat potřebuje.</li>
+          <li>Talent a náklady — inženýrů schopných stavět governed AI bude málo.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========== SYNTHESIS =========== -->
+  <section class="synthesis" id="synteza">
+    <h2>Syntéza — pilíře se navzájem potřebují</h2>
+    <p class="lede" style="font-size:16px;">
+      Není možné vybrat jen jeden. Každý z pilířů je nezbytnou podmínkou pro ostatní. Bez důvěry nelze
+      bezpečně delegovat AI. Bez kontextu nemá AI co interpretovat. Bez AI nelze škálovat kontextovou
+      přítomnost. Jednotlivé investice se musí plánovat ve vzájemné závislosti.
+    </p>
+
+    <svg class="venn" viewBox="0 0 520 360" width="100%" height="auto" aria-hidden="true">
+      <defs>
+        <style>.venn-label { font: 600 13px -apple-system, Segoe UI, sans-serif; fill: #1A1A1A; }
+               .venn-sub { font: 500 11px -apple-system, Segoe UI, sans-serif; fill: #4A4A4A; }
+               .venn-core { font: 700 14px -apple-system, Segoe UI, sans-serif; fill: #1A1A1A; text-anchor: middle; }</style>
+      </defs>
+      <circle cx="180" cy="140" r="120" fill="#8B2E2E" fill-opacity="0.18" stroke="#8B2E2E" stroke-width="1.5"/>
+      <circle cx="340" cy="140" r="120" fill="#1B7A86" fill-opacity="0.18" stroke="#1B7A86" stroke-width="1.5"/>
+      <circle cx="260" cy="250" r="120" fill="#6B3FA0" fill-opacity="0.18" stroke="#6B3FA0" stroke-width="1.5"/>
+
+      <text x="80" y="100" class="venn-label" fill="#8B2E2E">Důvěra</text>
+      <text x="80" y="118" class="venn-sub">last line of truth</text>
+
+      <text x="400" y="100" class="venn-label" fill="#1B7A86">Kontext</text>
+      <text x="400" y="118" class="venn-sub">ambient banking</text>
+
+      <text x="200" y="330" class="venn-label" fill="#6B3FA0">Kognice</text>
+      <text x="200" y="348" class="venn-sub">AI-native core</text>
+
+      <text x="260" y="185" class="venn-core">Banka 2030</text>
+      <text x="260" y="205" class="venn-sub" text-anchor="middle">relevantní · bezpečná · všudypřítomná</text>
+    </svg>
+
+    <h3 style="margin-top:40px;">Vzájemné závislosti</h3>
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Závislost</th>
+          <th>Proč</th>
+          <th>Co se stane, když chybí</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Kognice potřebuje Důvěru</td>
+          <td>Delegace AI akcí vyžaduje pevnou identitu a ověřitelnost.</td>
+          <td>AI je funkční, ale nikdo jí neodvede důležitá rozhodnutí.</td>
+        </tr>
+        <tr>
+          <td>Kontext potřebuje Důvěru</td>
+          <td>Bez garantované identity nebudou partneři ochotni integrovat.</td>
+          <td>Banka zůstane jen „další“ BaaS nabídkou, bez přidané hodnoty.</td>
+        </tr>
+        <tr>
+          <td>Kognice potřebuje Kontext</td>
+          <td>AI bez dat napříč životem uživatele nemá co interpretovat.</td>
+          <td>Personalizace zůstane na úrovni roku 2023 — povrchní.</td>
+        </tr>
+        <tr>
+          <td>Kontext potřebuje Kognici</td>
+          <td>Integrace do stovek partnerů nejde ručně — musí ji řídit AI.</td>
+          <td>Rozsah zůstane malý, partnerství se stanou drahými.</td>
+        </tr>
+        <tr>
+          <td>Důvěra potřebuje Kognici</td>
+          <td>Detekce sofistikovaných podvodů se bez AI neobejde.</td>
+          <td>Fraud ztráty rostou, reputace klesá, regulátor klepne.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:40px;">Investiční priority — doporučená sekvence</h3>
+    <div class="roadmap">
+      <div class="phase-card">
+        <h5>Horizont 0–2 roky</h5>
+        <b>Základ důvěry</b>
+        <p>Migrace na post-quantum připravenou kryptografii, nasazení continuous biometrie, AI governance platforma. Bez tohoto nelze stavět nic dalšího.</p>
+      </div>
+      <div class="phase-card">
+        <h5>Horizont 2–4 roky</h5>
+        <b>Kognitivní jádro</b>
+        <p>AI-native core, agent framework, delegation engine, customer knowledge graph. Stavěno na důvěryhodné infrastruktuře z první fáze.</p>
+      </div>
+      <div class="phase-card">
+        <h5>Horizont 3–5 let</h5>
+        <b>Ambient distribuce</b>
+        <p>Composable API, partnerský ekosystém, embedded UX. Nejpozdější pilíř — protože bez důvěry a kognice by šlo jen o „další BaaS“.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:40px;">Otevřené otázky k diskuzi</h3>
+    <ul style="font-size:15px; color: var(--ink-soft); line-height:1.7;">
+      <li>Jak daleko má jít monetizace identity jako služby — kde končí příležitost a začíná etický problém?</li>
+      <li>Komu patří kontext zákazníka, když žije napříč pěti partnerskými platformami?</li>
+      <li>Jakou úroveň AI autonomie je banka ochotná převzít jako odpovědnost (regulace, ztráty)?</li>
+      <li>Lze postavit všechny tři pilíře interně, nebo je nutné zvolit spojenectví (big tech, specializovaní hráči)?</li>
+      <li>Jak přesvědčit stávající zákazníky o přechodu na embedded UX, když je návyk chodit do bankovní appky silný?</li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>
+  Strategický průzkum · Metodika: Double Diamond + HCD · Pohled banky a trhu · 2026
+</footer>
+
+</body>
+</html>
