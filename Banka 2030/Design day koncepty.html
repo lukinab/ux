@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banka 2030 — Koncepty</title>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --surface-2: #f0f2f7;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --ink-soft: #64748b;
+    --brand: #2563eb;
+    --brand-2: #1e3a8a;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --border: #e2e8f0;
+    --radius: 14px;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,.04), 0 1px 3px rgba(15,23,42,.06);
+    --shadow-md: 0 4px 6px rgba(15,23,42,.05), 0 10px 15px rgba(15,23,42,.08);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 15px;
+  }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  header.hero {
+    padding: 40px 0 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  header.hero .kicker {
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  header.hero h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 8px 0 10px;
+    letter-spacing: -.02em;
+  }
+  header.hero p {
+    color: var(--ink-muted);
+    max-width: 780px;
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin: 28px 0 24px;
+    padding: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: fit-content;
+    box-shadow: var(--shadow-sm);
+  }
+  .tab {
+    padding: 10px 18px;
+    border: none;
+    background: transparent;
+    color: var(--ink-muted);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all .15s;
+    font-family: inherit;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active {
+    background: var(--brand);
+    color: white;
+    box-shadow: 0 2px 4px rgba(37,99,235,.2);
+  }
+
+  .panel { display: none; animation: fade .3s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  section.block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  section.block h2 {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+    font-weight: 700;
+  }
+  section.block h3 {
+    font-size: 20px;
+    margin: 0 0 6px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+  }
+  section.block p { margin: 6px 0; color: var(--ink-muted); }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 820px) { .two-col { grid-template-columns: 1fr; } }
+
+  .persona-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+  .persona-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 20px;
+    flex-shrink: 0;
+  }
+  .avatar.alt { background: var(--brand-2); }
+  .persona-meta { color: var(--ink-soft); font-size: 13px; }
+  .persona-name { font-weight: 700; font-size: 17px; }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin: 2px 4px 2px 0;
+  }
+
+  .journey {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+  }
+  @media (max-width: 980px) { .journey { grid-template-columns: 1fr; } }
+
+  .phase {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+  }
+  .phase-head {
+    padding: 10px 14px;
+    background: var(--brand);
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .02em;
+  }
+  .phase:nth-child(1) .phase-head { background: #3b82f6; }
+  .phase:nth-child(2) .phase-head { background: #2563eb; }
+  .phase:nth-child(3) .phase-head { background: #1d4ed8; }
+  .phase:nth-child(4) .phase-head { background: #1e40af; }
+  .phase:nth-child(5) .phase-head { background: #1e3a8a; }
+
+  .phase-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .phase-label {
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin: 0 0 2px;
+  }
+  .phase-body ul { margin: 0; padding-left: 16px; font-size: 13px; color: var(--ink-muted); }
+  .phase-body ul li { margin-bottom: 3px; }
+
+  .emoji-strip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--surface-2);
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .mood {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .mood-bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    overflow: hidden;
+    position: relative;
+  }
+  .mood-fill { height: 100%; border-radius: 3px; }
+
+  .pain { border-top: 1px dashed var(--border); padding-top: 8px; font-size: 12px; }
+  .pain .label-pain { color: var(--danger); font-weight: 700; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+  .pain .label-opp { color: var(--success); font-weight: 700; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+  .pain p { margin: 2px 0 8px; color: var(--ink-muted); font-size: 13px; }
+
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .screen {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .screen:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+  .phone {
+    background: #0f172a;
+    padding: 10px 10px 14px;
+    border-radius: 14px 14px 0 0;
+  }
+  .phone-inner {
+    background: white;
+    border-radius: 10px;
+    aspect-ratio: 9 / 16;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--ink);
+    overflow: hidden;
+  }
+  .statusbar {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 9px; color: var(--ink-soft); margin-bottom: 2px;
+  }
+  .screen-caption {
+    padding: 12px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+  .screen-caption .n {
+    display: inline-block;
+    background: var(--brand);
+    color: white;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 20px;
+    margin-right: 6px;
+  }
+  .screen-caption h4 { margin: 0 0 4px; font-size: 14px; }
+  .screen-caption p { margin: 0; color: var(--ink-muted); font-size: 12px; line-height: 1.4; }
+
+  .ui-card {
+    background: #eff6ff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    border: 1px solid #dbeafe;
+  }
+  .ui-card.warn { background: #fef3c7; border-color: #fde68a; }
+  .ui-card.success { background: #d1fae5; border-color: #a7f3d0; }
+  .ui-card.dark { background: #0f172a; color: white; border: none; }
+  .ui-row { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+  .ui-title { font-weight: 700; font-size: 11px; }
+  .ui-big { font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
+  .ui-small { font-size: 9px; color: var(--ink-soft); }
+  .ui-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; margin-top: 4px; }
+  .ui-fill { height: 100%; background: var(--brand); }
+  .ui-fill.green { background: var(--success); }
+  .ui-fill.amber { background: var(--accent); }
+  .ui-btn {
+    background: var(--brand); color: white;
+    padding: 6px 10px; border-radius: 6px; text-align: center;
+    font-size: 10px; font-weight: 600;
+  }
+  .ui-btn.ghost { background: white; color: var(--brand); border: 1px solid var(--brand); }
+  .ui-btn.full { width: 100%; }
+  .ui-chip { background: white; border: 1px solid var(--border); padding: 4px 8px; border-radius: 999px; font-size: 9px; display: inline-block; }
+  .ui-list-item {
+    display: flex; justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 10px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+  .dot.g { background: var(--success); }
+  .dot.a { background: var(--accent); }
+  .dot.r { background: var(--danger); }
+
+  .impact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 700px) { .impact-grid { grid-template-columns: 1fr; } }
+  .impact-card {
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .impact-card.good { background: #f0fdf4; border-color: #bbf7d0; }
+  .impact-card.risk { background: #fef2f2; border-color: #fecaca; }
+  .impact-card h4 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .impact-card.good h4 { color: #15803d; }
+  .impact-card.risk h4 { color: #b91c1c; }
+  .impact-card ul { margin: 0; padding-left: 18px; color: var(--ink); }
+  .impact-card ul li { margin-bottom: 6px; font-size: 14px; }
+
+  .scenario-box {
+    border-left: 3px solid var(--brand);
+    padding: 4px 0 4px 16px;
+    margin-top: 12px;
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 0 8px;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">UX / Service Design — Banka 2030</div>
+  <h1>Tři koncepty do další discovery fáze</h1>
+  <p>Konceptový brief pro tři vybraná témata: <strong>AI finanční rádce</strong> s delegovanou autonomií a sjednoceným pohledem, <strong>embedded finance</strong> jako nová distribuční vrstva a <strong>bezpečnost</strong> v podobě AI anti-fraud štítu a digitálního trezoru. Pro každý koncept persona, scénář, journey mapa, obrazovky, dopad a rizika.</p>
+</header>
+
+<div class="tabs" role="tablist">
+  <button class="tab active" data-tab="ai">AI rádce</button>
+  <button class="tab" data-tab="embedded">Embedded finance</button>
+  <button class="tab" data-tab="security">Bezpečnost</button>
+</div>
+
+<!-- KONCEPT 1: AI RÁDCE -->
+<div class="panel active" id="panel-ai">
+
+  <section class="block">
+    <h2>1 — Kontext a persona</h2>
+    <div class="two-col">
+      <div>
+        <h3>AI rádce jako delegovaný průvodce</h3>
+        <p>Osobní AI asistent, který jedná v předem nastavených limitech (cashflow, úspory, pravidelné platby), vysvětluje <em>proč</em> něco navrhuje a dává uživateli možnost kdykoli zasáhnout, zastavit nebo rozhodnutí vrátit. K tomu sjednocený pohled na účty, úvěry, investice a embedded služby — finanční zdraví je hlavní metrika místo zůstatku.</p>
+        <div class="scenario-box">
+          <strong>Situace:</strong> Markéta řeší každý měsíc desítky drobných rozhodnutí (spořit, převést, zaplatit, zkontrolovat). Chce méně rutiny, ale nechce ztratit kontrolu nad svými penězi.
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-head">
+          <div class="avatar">M</div>
+          <div>
+            <div class="persona-name">Markéta, 34</div>
+            <div class="persona-meta">Marketingová manažerka, Brno</div>
+          </div>
+        </div>
+        <p style="margin: 4px 0 10px; font-size: 13px;">Vdaná, dvě děti (6 a 9). Domácnost se dvěma příjmy, hypotéka, pravidelné spoření pro děti, občasné investice do ETF.</p>
+        <div>
+          <span class="tag">Vysoká digitální gramotnost</span>
+          <span class="tag">Aktivní v app</span>
+          <span class="tag">Motivace: klid, čas, kontrola</span>
+          <span class="tag">Ochotna delegovat rutinu</span>
+          <span class="tag">Skeptická vůči „černé skříňce"</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>2 — Cíl a scénář</h2>
+    <h3>Za 60 vteřin mít vyřešeno a mít jistotu, že to bylo dobře</h3>
+    <p><strong>Cíl uživatele:</strong> zkontrolovat situaci, schválit/upravit návrh AI a vědět, že peníze jsou „pod kontrolou" — bez studování tabulek a kalkulaček.</p>
+    <div class="scenario-box">
+      <strong>Scénář:</strong> Markétě přijde proaktivní upozornění: „Tento měsíc ti do výplaty chybí 2 400 Kč na pokrytí plánovaných plateb." Otevře app, vidí <em>Finanční zdraví</em> s vysvětlením. AI nabídne 3 varianty (převod ze spoření, posunout platbu kartou, zrušit jednorázovou investici). U každé vidí dopad na měsíc i rok. Vybere a potvrdí. Nastaví pravidlo, aby se stejná situace řešila příště automaticky v rámci limitu 5 000 Kč. V historii rozhodnutí má záznam, který se dá vrátit do 24 hodin.
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>3 — Customer journey</h2>
+    <h3 style="margin-bottom: 18px;">Pět fází od prvního impulsu po následnou péči</h3>
+    <div class="journey">
+
+      <div class="phase">
+        <div class="phase-head">1 · Trigger</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>AI detekuje blížící se riziko</li>
+              <li>Odešle proaktivní notifikaci s kontextem</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>Push notifikace, smart watch</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Znepokojení</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 30%; background: var(--accent);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Riziko vnímané jako „alarm", spamové notifikace</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Notifikace s kontextem a konkrétním řešením</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">2 · Otevírá</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Otevře aplikaci</li>
+              <li>Vidí Financial Vitals dashboard</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>Mobilní app, home screen</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Soustředění</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 55%; background: var(--brand);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Přetížení čísly, nejasná priorita</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Jeden jasný „stav" místo tabulek</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">3 · Zvažuje</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Prohlíží 3 návrhy AI</li>
+              <li>Rozbaluje „proč" u každého</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>Mobilní app, in-context explainer</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Důvěra</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 70%; background: var(--success);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>„Black box" AI, nejasná odpovědnost</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Vrstvená vysvětlitelnost + dopad v čase</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">4 · Deleguje</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Schválí akci, nastaví limit</li>
+              <li>Aktivuje auto-pravidlo</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>Biometrické potvrzení</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Klid</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 85%; background: var(--success);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Strach z „dalo se to vrátit?"</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Cooling-off a viditelný undo</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">5 · Ověřuje</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Kontroluje historii rozhodnutí</li>
+              <li>Případně vrátí akci zpět</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>App, audit log, e-mail shrnutí</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Důvěra</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 90%; background: var(--success);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Audit schovaný hluboko v menu</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Historie jako první-třídní prvek UI</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>4 — Obrazovky konceptu</h2>
+    <h3 style="margin-bottom: 18px;">Pět klíčových obrazovek</h3>
+    <div class="screens-grid">
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>09:42</span><span>···</span></div>
+            <div class="ui-card warn">
+              <div class="ui-title">Upozornění od rádce</div>
+              <p style="margin: 4px 0; font-size: 10px;">Do výplaty chybí 2 400 Kč na plánované platby.</p>
+            </div>
+            <div style="font-size: 10px; color: var(--ink-muted);">Tři návrhy připraveny</div>
+            <div class="ui-btn full">Otevřít přehled</div>
+            <div class="ui-btn ghost full">Odložit o 2 h</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">1</span>Proaktivní upozornění</h4>
+          <p>Notifikace s kontextem a konkrétním řešením — ne jen „došlo k události".</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>09:43</span><span>···</span></div>
+            <div class="ui-title" style="font-size: 12px;">Finanční zdraví</div>
+            <div class="ui-card dark">
+              <div class="ui-big" style="color: white;">72/100</div>
+              <div style="font-size: 9px; opacity: .8;">Stabilní, pozor na cashflow</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <div class="ui-list-item"><span><span class="dot g"></span>Rezerva</span><span>3,2 m</span></div>
+              <div class="ui-list-item"><span><span class="dot a"></span>Cashflow</span><span>−2,4 k</span></div>
+              <div class="ui-list-item"><span><span class="dot g"></span>Dluh/příjem</span><span>28 %</span></div>
+              <div class="ui-list-item"><span><span class="dot g"></span>Spoření</span><span>+8 %</span></div>
+            </div>
+            <div class="ui-btn full">Řešit cashflow</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">2</span>Financial Vitals</h4>
+          <p>Jedno skóre místo zůstatku. Čtyři pilíře s trendem a jasnou prioritou.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>09:44</span><span>···</span></div>
+            <div class="ui-title" style="font-size: 12px;">3 návrhy AI rádce</div>
+            <div class="ui-card">
+              <div class="ui-row"><span class="ui-title">Převod ze spoření</span><span class="ui-chip">Doporučeno</span></div>
+              <p style="font-size: 9px; margin: 3px 0;">Dopad: −0 Kč úrok, cíl dětí nedotčen</p>
+              <div class="ui-bar"><div class="ui-fill green" style="width: 90%;"></div></div>
+            </div>
+            <div class="ui-card" style="background: white; border: 1px solid var(--border);">
+              <div class="ui-row"><span class="ui-title">Posun platby karty</span><span style="font-size: 9px; color: var(--ink-soft);">2. varianta</span></div>
+              <p style="font-size: 9px; margin: 3px 0;">Dopad: +85 Kč poplatek</p>
+              <div class="ui-bar"><div class="ui-fill amber" style="width: 55%;"></div></div>
+            </div>
+            <div style="font-size: 9px; color: var(--brand); text-align: center;">Proč toto doporučujeme?</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">3</span>Návrhy s vysvětlením</h4>
+          <p>Každá varianta ukazuje dopad v čase a rozbalitelné „proč". Žádná černá skříňka.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>09:45</span><span>···</span></div>
+            <div class="ui-title" style="font-size: 12px;">Nastavit auto-pravidlo</div>
+            <div class="ui-card">
+              <p style="font-size: 10px; margin: 0;">Když hrozí přečerpání &lt; 5 000 Kč, přesuň ze spoření.</p>
+            </div>
+            <div style="font-size: 10px;">
+              <div class="ui-row" style="margin: 4px 0;"><span>Max částka</span><strong>5 000 Kč</strong></div>
+              <div class="ui-row" style="margin: 4px 0;"><span>Platnost</span><strong>6 měsíců</strong></div>
+              <div class="ui-row" style="margin: 4px 0;"><span>Potvrdit předem</span><strong>Ne</strong></div>
+              <div class="ui-row" style="margin: 4px 0;"><span>Oznámit po akci</span><strong>Ano</strong></div>
+            </div>
+            <div class="ui-btn full">Aktivovat pravidlo</div>
+            <div style="font-size: 9px; color: var(--ink-soft); text-align: center;">Můžeš kdykoli změnit nebo zrušit</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">4</span>Delegace s limity</h4>
+          <p>Klient rozhoduje „jak daleko" AI smí. Granularita: částka, doba, typ akce.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>10:02</span><span>···</span></div>
+            <div class="ui-title" style="font-size: 12px;">Co za mě AI udělala</div>
+            <div class="ui-card success">
+              <div class="ui-row"><span class="ui-title">Převod 2 400 Kč</span><span style="font-size: 9px;">před 12 min</span></div>
+              <p style="font-size: 9px; margin: 3px 0;">Ze spoření → běžný účet</p>
+              <div class="ui-btn ghost" style="font-size: 9px; margin-top: 4px;">Vrátit zpět</div>
+            </div>
+            <div class="ui-card" style="background: white; border: 1px solid var(--border);">
+              <div class="ui-row"><span class="ui-title">Investice 500 Kč</span><span style="font-size: 9px;">včera</span></div>
+              <p style="font-size: 9px; margin: 3px 0;">Pravidelný nákup ETF</p>
+            </div>
+            <div class="ui-card" style="background: white; border: 1px solid var(--border);">
+              <div class="ui-row"><span class="ui-title">Notifikace o výdaji</span><span style="font-size: 9px;">pondělí</span></div>
+              <p style="font-size: 9px; margin: 3px 0;">Vyšší útrata za energie o 18 %</p>
+            </div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">5</span>Audit a undo</h4>
+          <p>Historie rozhodnutí AI jako první-třídní prvek UI. Každá akce má vratnou lhůtu.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>5 — Dopad a rizika</h2>
+    <div class="impact-grid">
+      <div class="impact-card good">
+        <h4>Hlavní přínos</h4>
+        <ul>
+          <li>Menší kognitivní zátěž — AI řeší rutinu, klient rozhoduje o principech</li>
+          <li>Lepší finanční zdraví díky průběžné optimalizaci, ne jednorázovým zásahům</li>
+          <li>Důvěra roste z důkazů (vysvětlení, audit, undo), ne z marketingu</li>
+          <li>Nová retenční páka — klient cítí hodnotu mimo transakce</li>
+        </ul>
+      </div>
+      <div class="impact-card risk">
+        <h4>Rizika a dilemata</h4>
+        <ul>
+          <li>AI Act: vysvětlitelnost a lidský dohled jsou povinnost, ne volba</li>
+          <li>Falešná rada AI = ztráta důvěry nepoměrně větší než zisk z automatizace</li>
+          <li>Potřeba edukace — „co vlastně AI smí" musí být pochopitelné seniorovi</li>
+          <li>Riziko „paternalismu" — AI, která rozhoduje místo klienta, vyvolá odpor</li>
+          <li>Odpovědnost: kdo zaplatí, když AI pravidlo udělá chybu?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- KONCEPT 2: EMBEDDED FINANCE -->
+<div class="panel" id="panel-embedded">
+
+  <section class="block">
+    <h2>1 — Kontext a persona</h2>
+    <div class="two-col">
+      <div>
+        <h3>Embedded finance v bodě nákupu</h3>
+        <p>30–40 % transakcí v 2030 se iniciuje mimo bankovní aplikaci — v e-shopu, u autodealera, na platformě pro OSVČ, v HR systému. Banka musí být integrovaná tam, kde klient rozhoduje, a zároveň si udržet vztah, identitu klienta a přehled v centrální aplikaci.</p>
+        <div class="scenario-box">
+          <strong>Situace uživatele:</strong> Tomáš si kupuje novou televizi za 28 000 Kč. Nechce platit všechno najednou, chce znát dopad na rozpočet dřív, než klikne „koupit".<br><br>
+          <strong>Situace banky:</strong> Produktový tým chce být tam, kde klient rozhoduje o větší útratě — ne čekat, až přijde do appky pro úvěr.
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-head">
+          <div class="avatar alt">T</div>
+          <div>
+            <div class="persona-name">Tomáš, 40</div>
+            <div class="persona-meta">IT specialista, Praha</div>
+          </div>
+        </div>
+        <p style="margin: 4px 0 10px; font-size: 13px;">Rodina, hypotéka, stabilní příjem. Pragmatický, očekává, že digitální služba „prostě funguje" bez přepínání mezi aplikacemi.</p>
+        <div>
+          <span class="tag">Vysoká digitální gramotnost</span>
+          <span class="tag">Nakupuje online</span>
+          <span class="tag">Motivace: rychlost, přehled</span>
+          <span class="tag">Nechce splátky naslepo</span>
+          <span class="tag">Ochoten delegovat, ne však slepě</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>2 — Cíl a scénář</h2>
+    <h3>Financovat větší nákup bez opuštění e-shopu — a vidět dopad předem</h3>
+    <p><strong>Cíl uživatele:</strong> za 60–90 vteřin schválit splátkový plán, rozumět dopadu na cashflow a mít produkt v bankovní appce ihned dostupný.</p>
+    <p><strong>Cíl banky:</strong> být „primární finanční vrstvou" u třetích stran — udržet vztah s klientem i tam, kde sama nevlastní rozhraní.</p>
+    <div class="scenario-box">
+      <strong>Scénář:</strong> Tomáš v e-shopu vybere TV. Na checkoutu vidí widget <em>„Rozložit s tvou bankou"</em> — poznán díky passkey/EUDI. Jednokliková identifikace. AI rádce spočítá 3 splátkové varianty, každou porovná s dopadem na Financial Vitals (jaká část rezervy zůstane, jestli se sníží spořicí cíl). Tomáš vybere variantu 12 × 2 550 Kč, potvrdí biometrií. Potvrzení přijde do bankovní appky, úvěr je vidět v unified view, AI rádce nabídne, zda má platbu hlídat automaticky.
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>3 — Customer journey</h2>
+    <h3 style="margin-bottom: 18px;">Pět fází — většina se odehrává mimo bankovní app</h3>
+    <div class="journey">
+
+      <div class="phase">
+        <div class="phase-head">1 · Prochází</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Prochází e-shop, vybírá produkt</li>
+              <li>Zvažuje, zda má peníze</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>Web, mobilní e-shop</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Chuť</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 60%; background: var(--accent);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Nejasnost, jestli si to může dovolit</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Dopad na rozpočet viditelný ještě před košíkem</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">2 · Checkout</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Vidí embedded widget banky</li>
+              <li>Poznání přes passkey/EUDI</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>Checkout stránka, biometrie</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Zvědavost</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 70%; background: var(--brand);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Redirect do banky a ztráta košíku</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Celý proces bez opuštění e-shopu</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">3 · Rozhoduje</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Srovnává 3 splátkové varianty</li>
+              <li>Vidí dopad na Vitals</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>Widget s live daty banky</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Jistota</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 80%; background: var(--success);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Marketingová čísla bez kontextu</p>
+            <span class="label-opp">Opportunity</span>
+            <p>„Zbude ti rezerva 2,8 měsíce místo 3,1"</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">4 · Potvrzuje</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Biometrické schválení</li>
+              <li>Elektronický podpis</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>EUDI podpis, FaceID</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Úleva</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 85%; background: var(--success);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Právní text, který nikdo nečte</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Shrnutí klíčových podmínek v TL;DR</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">5 · Spravuje</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Úvěr v bankovní app</li>
+              <li>AI hlídá splátky</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>Bankovní app, unified view</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Kontrola</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 90%; background: var(--success);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Produkt „někde" bez vztahu k životu</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Refinancování nebo mimořádná splátka jedním krokem</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>4 — Obrazovky konceptu</h2>
+    <h3 style="margin-bottom: 18px;">Pět obrazovek napříč třetí stranou a bankou</h3>
+    <div class="screens-grid">
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>eshop.cz</span><span>●●●</span></div>
+            <div class="ui-title" style="font-size: 12px;">Samsung QLED 55"</div>
+            <div class="ui-card">
+              <div class="ui-big">28 990 Kč</div>
+              <div class="ui-small">Skladem, dnes odesíláme</div>
+            </div>
+            <div class="ui-card" style="background: #eff6ff;">
+              <div class="ui-small" style="color: var(--brand); font-weight: 600;">Rozložit s tvou bankou</div>
+              <div style="font-size: 11px; font-weight: 700; margin: 2px 0;">od 2 550 Kč / měsíc</div>
+              <div class="ui-small">Bez dopadu na tvoji rezervu</div>
+            </div>
+            <div class="ui-btn full">Přidat do košíku</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">1</span>Widget na produktu</h4>
+          <p>Banka je vidět už při výběru — ne až na checkoutu. Doprovodné informace jsou konkrétní, ne marketingové.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>Checkout</span><span>●●</span></div>
+            <div class="ui-title" style="font-size: 12px;">Přihlášení</div>
+            <div class="ui-card dark" style="text-align: center; padding: 14px;">
+              <div style="font-size: 22px;">⬤</div>
+              <div class="ui-small" style="color: white; margin-top: 4px;">Ověřit přes passkey</div>
+            </div>
+            <div class="ui-small" style="text-align: center;">—  nebo  —</div>
+            <div class="ui-btn ghost full">Digitální občanka EU</div>
+            <div class="ui-small" style="text-align: center; margin-top: 6px;">Bez hesel, bez přesměrování</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">2</span>Bezešvá identita</h4>
+          <p>Passkey nebo EUDI. Jedno klepnutí, bez opuštění checkoutu a bez vyplňování údajů.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>Rádce</span><span>●●</span></div>
+            <div class="ui-title" style="font-size: 12px;">Vyber variantu</div>
+            <div class="ui-card">
+              <div class="ui-row"><span class="ui-title">6 × 4 920 Kč</span><span class="ui-chip">0 % RPSN</span></div>
+              <div class="ui-small">Dopad na Vitals: −3 b.</div>
+            </div>
+            <div class="ui-card" style="border: 2px solid var(--brand); background: white;">
+              <div class="ui-row"><span class="ui-title">12 × 2 550 Kč</span><span class="ui-chip" style="color: var(--brand);">Vybráno</span></div>
+              <div class="ui-small">Dopad na Vitals: −1 b. · rezerva zůstane 2,8 m</div>
+            </div>
+            <div class="ui-card" style="background: white; border: 1px solid var(--border);">
+              <div class="ui-row"><span class="ui-title">24 × 1 380 Kč</span><span class="ui-small">Nejnižší splátka</span></div>
+              <div class="ui-small">RPSN 9,5 % · přeplatěno 4 100 Kč</div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">3</span>Varianty s dopadem</h4>
+          <p>Každá varianta ukazuje dopad na finanční zdraví, ne jen splátku. Transparentnost jako konkurenční výhoda.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>Potvrzení</span><span>●</span></div>
+            <div class="ui-card success">
+              <div class="ui-title">Schváleno</div>
+              <p style="font-size: 10px; margin: 3px 0;">Smlouva podepsána v mobilu</p>
+            </div>
+            <div style="font-size: 10px;">
+              <div class="ui-row" style="padding: 3px 0;"><span>Částka</span><strong>28 990 Kč</strong></div>
+              <div class="ui-row" style="padding: 3px 0;"><span>Splátka</span><strong>2 550 Kč / m</strong></div>
+              <div class="ui-row" style="padding: 3px 0;"><span>Doba</span><strong>12 měsíců</strong></div>
+              <div class="ui-row" style="padding: 3px 0;"><span>Lhůta na odstoupení</span><strong>14 dní</strong></div>
+            </div>
+            <div class="ui-btn full">Otevřít v bance</div>
+            <div class="ui-btn ghost full">Pokračovat v eshopu</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">4</span>Schválení a TL;DR</h4>
+          <p>Klíčové podmínky na jednom místě. Cooling-off viditelný. Přepnutí do banky je opční, ne povinné.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>Banka app</span><span>···</span></div>
+            <div class="ui-title" style="font-size: 12px;">Všechny produkty</div>
+            <div class="ui-card">
+              <div class="ui-row"><span class="ui-title">TV splátky</span><span style="font-size: 9px;">nový</span></div>
+              <p class="ui-small">12 × 2 550 Kč · další 13. 5.</p>
+              <div class="ui-bar"><div class="ui-fill" style="width: 8%;"></div></div>
+            </div>
+            <div class="ui-card" style="background: white; border: 1px solid var(--border);">
+              <div class="ui-row"><span class="ui-title">Hypotéka</span><span class="ui-small">—</span></div>
+              <div class="ui-small">Měsíční 18 400 Kč</div>
+            </div>
+            <div class="ui-card" style="background: #fef3c7; border-color: #fde68a;">
+              <p class="ui-small" style="margin: 0;">Rádce: při mimořádné splátce 5 000 Kč ušetříš 620 Kč. Ukázat návrh?</p>
+            </div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">5</span>Návrat do unified view</h4>
+          <p>Embedded produkt je okamžitě součástí přehledu. AI rádce hned navrhuje další kroky.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>5 — Dopad a rizika</h2>
+    <div class="impact-grid">
+      <div class="impact-card good">
+        <h4>Hlavní přínos</h4>
+        <ul>
+          <li>Konverze pro partnera — rozložení platby v bodě rozhodnutí zvyšuje objem košíku</li>
+          <li>Pro banku zachovaný vztah s klientem mimo vlastní rozhraní</li>
+          <li>Pro klienta menší mentální zátěž a transparentní dopad na rozpočet</li>
+          <li>Data z transakcí zpřesňují AI rádce v bankovní app (zpětná vazba)</li>
+        </ul>
+      </div>
+      <div class="impact-card risk">
+        <h4>Rizika a dilemata</h4>
+        <ul>
+          <li>Impulsní nákupy a zadlužování — BNPL pod tlakem regulace (PSD3, CCD II)</li>
+          <li>Závislost na partnerovi — pokud e-shop změní poskytovatele, banka ztrácí touchpoint</li>
+          <li>Fragmentace UX — banka nekontroluje design widgetu; nutné jasné design tokeny</li>
+          <li>Fraud v bodě prodeje — passkey a EUDI pomáhají, ale útoky se posouvají na sociální vrstvu</li>
+          <li>Regulatorní pasti — CCD II vyžaduje plnou evaluaci bonity i u malých částek</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- KONCEPT 3: BEZPEČNOST -->
+<div class="panel" id="panel-security">
+
+  <section class="block">
+    <h2>1 — Kontext a persona</h2>
+    <div class="two-col">
+      <div>
+        <h3>AI anti-fraud štít a digitální trezor</h3>
+        <p>Banka chrání nejen účet, heslo a zařízení, ale i člověka v momentě stresu, tlaku nebo manipulace. AI štít v reálném čase detekuje anomálie v chování, zpomalí nebo zastaví rizikovou akci a v krizi nabídne lidský kontakt do 60 sekund. Digitální trezor sdružuje kritické dokumenty, oprávnění třetích stran a přehled zařízení — klient má jednou provždy jasno, kdo a co vidí.</p>
+        <div class="scenario-box">
+          <strong>Situace:</strong> Petr je v pondělí ráno pod časovým tlakem. Přijde mu volání od „bankéře" s jeho jménem — hlas zní věrohodně (deepfake). Útočník vytváří urgenci a tlačí ho k okamžitému převodu 180 000 Kč na „zabezpečený účet". Normálně by takovou žádost odmítl, ale teď je roztěkaný.
+        </div>
+        <div class="scenario-box">
+          <strong>Poznámka:</strong> Zranitelnost je situační, ne segmentová. Stejně chráněný musí být senior, který ztratí orientaci v nové appce, i IT ředitel pod stresem. Koncept pracuje s různými úrovněmi asistence.
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-head">
+          <div class="avatar" style="background: #dc2626;">P</div>
+          <div>
+            <div class="persona-name">Petr, 45</div>
+            <div class="persona-meta">Marketingový ředitel, Praha</div>
+          </div>
+        </div>
+        <p style="margin: 4px 0 10px; font-size: 13px;">Rodina, stabilní vysoký příjem, časté platby. Velmi vysoká digitální gramotnost, běžně filtruje phishing. Slabina: v momentě stresu nebo časového tlaku reaguje rychle a přestává ověřovat.</p>
+        <div>
+          <span class="tag">Velmi vysoká digitální gramotnost</span>
+          <span class="tag">Časový tlak</span>
+          <span class="tag">Situační zranitelnost</span>
+          <span class="tag">Motivace: rychlost, klid</span>
+          <span class="tag">Odmítá „nanny banking"</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>2 — Cíl a scénář</h2>
+    <h3>Zastavit špatnou transakci dřív, než dojde ke škodě — a obnovit stav, když už k ní došlo</h3>
+    <p><strong>Cíl uživatele:</strong> být chráněn i v momentě, kdy sám udělá chybu pod tlakem. Mít jistotu, že banka za svojí ochranou stojí, a že se dá incident vrátit zpět.</p>
+    <p><strong>Cíl banky:</strong> snížit ztráty z APP scamů, splnit PSD3/PSR (refund jako default), vybudovat důvěru skrze viditelnou ochranu.</p>
+    <div class="scenario-box">
+      <strong>Scénář:</strong> Petr potvrdí převod 180 000 Kč. AI štít v milisekundách vyhodnotí: neobvyklý příjemce, neobvyklá částka, telefonní hovor 4 minuty před transakcí, behaviorální anomálie (rychlejší tempo psaní, atypický pohyb v appce). Spustí <em>Safe Stop</em> — transakce není odeslána, místo toho se objeví obrazovka s kontextem: „Viděli jsme několik neobvyklých signálů. Dáme si spolu 60 sekund?" Petr vidí tři otázky (je to pro tebe nové spojení? mluvils s někým kdo ti volal? máš na to čas v klidu?), jeho jistota klesá. Klepne na <em>Mluvit s člověkem</em>. Do 45 sekund ho volá specialista, který transakci ruší a zahajuje proces obnovy.
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>3 — Customer journey</h2>
+    <h3 style="margin-bottom: 18px;">Pět fází od detekce rizika po obnovu a prevenci</h3>
+    <div class="journey">
+
+      <div class="phase">
+        <div class="phase-head">1 · Detekce</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>AI vyhodnocuje kontext v reálném čase</li>
+              <li>Srovnává s běžným chováním</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>Back-end AI, behaviorální signály</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Neuvědomění</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 40%; background: var(--accent);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Pod manipulací uživatel neví, že je v riziku</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Neviditelná ochrana bez rušení běžných transakcí</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">2 · Intervence</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Safe Stop zastaví transakci</li>
+              <li>Zobrazí vysvětlení a otázky</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>App, in-flow breaker</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Překvapení</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 50%; background: var(--accent);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Frustrace z „zbytečného" zdržení</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Kontext, ne plošné blokace; vysvětlit „proč"</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">3 · Ověření</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Klient odpovídá na 3 kontextové otázky</li>
+              <li>Aktivuje lidskou podporu</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>App, hlasový hovor, chat s člověkem</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Obava, úleva</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 55%; background: var(--brand);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Chatbot v krizi, dlouhé čekání</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Lidský poradce do 60 s s plným kontextem</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">4 · Obnova</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Transakce zrušena nebo vrácena</li>
+              <li>Blokace kompromitovaných kanálů</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>App, e-mail, lidská podpora</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Úleva, důvěra</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 80%; background: var(--success);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>Týdny čekání na refund, papírování</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Refund APP scamu jako default (PSD3/PSR)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">5 · Prevence</div>
+        <div class="phase-body">
+          <div>
+            <p class="phase-label">Kroky</p>
+            <ul>
+              <li>Post-incident report</li>
+              <li>Nastavení trezoru a oprávnění</li>
+            </ul>
+          </div>
+          <div>
+            <p class="phase-label">Touchpoint</p>
+            <ul><li>App, digitální trezor, edukace</li></ul>
+          </div>
+          <div class="emoji-strip">
+            <span class="mood">Kontrola</span>
+            <div class="mood-bar"><div class="mood-fill" style="width: 90%; background: var(--success);"></div></div>
+          </div>
+          <div class="pain">
+            <span class="label-pain">Pain</span>
+            <p>„Další incident se stane stejně"</p>
+            <span class="label-opp">Opportunity</span>
+            <p>Personalizovaná edukace + trezor jako štít</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>4 — Obrazovky konceptu</h2>
+    <h3 style="margin-bottom: 18px;">Pět klíčových obrazovek</h3>
+    <div class="screens-grid">
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>09:12</span><span>···</span></div>
+            <div class="ui-card" style="background: #fef2f2; border-color: #fecaca;">
+              <div class="ui-title" style="color: #b91c1c;">Safe Stop — moment</div>
+              <p style="margin: 4px 0; font-size: 10px;">Viděli jsme několik neobvyklých signálů u této platby.</p>
+            </div>
+            <div style="font-size: 10px; color: var(--ink-muted);">
+              <div class="ui-row" style="padding: 3px 0;"><span>Nový příjemce</span><span class="dot r"></span></div>
+              <div class="ui-row" style="padding: 3px 0;"><span>Telefon 4 min před</span><span class="dot r"></span></div>
+              <div class="ui-row" style="padding: 3px 0;"><span>Vyšší tempo než obvykle</span><span class="dot a"></span></div>
+            </div>
+            <div class="ui-btn full" style="background: #dc2626;">Mluvit s člověkem</div>
+            <div class="ui-btn ghost full">Pokračovat po 60 s</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">1</span>Safe Stop s kontextem</h4>
+          <p>Banka nezablokuje — zpomalí a dá kontext. Klient vidí proč a může se rozhodnout.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>Štít</span><span>···</span></div>
+            <div class="ui-title" style="font-size: 12px;">Fraud Shield</div>
+            <div class="ui-card success">
+              <div class="ui-big" style="color: #065f46;">Aktivní</div>
+              <div class="ui-small">12 hrozeb zastaveno za 30 dní</div>
+            </div>
+            <div style="font-size: 10px; display: flex; flex-direction: column; gap: 3px;">
+              <div class="ui-list-item"><span><span class="dot g"></span>Behaviorální AI</span><span>Zapnuto</span></div>
+              <div class="ui-list-item"><span><span class="dot g"></span>Deepfake detekce</span><span>Zapnuto</span></div>
+              <div class="ui-list-item"><span><span class="dot g"></span>Geolokace</span><span>Zapnuto</span></div>
+              <div class="ui-list-item"><span><span class="dot g"></span>Ochrana před APP scam</span><span>Zapnuto</span></div>
+              <div class="ui-list-item"><span><span class="dot a"></span>Limit pro nové příjemce</span><span>5 000 Kč</span></div>
+            </div>
+            <div class="ui-btn ghost full">Upravit nastavení</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">2</span>Fraud Shield dashboard</h4>
+          <p>Viditelná ochrana — klient ví, co banka hlídá a co zastavila. Důvěra z důkazů.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>Krize</span><span>●</span></div>
+            <div class="ui-card" style="background: #dc2626; color: white; border: none;">
+              <div class="ui-title" style="color: white;">Volá ti poradce</div>
+              <p style="margin: 4px 0; font-size: 10px; opacity: .9;">do 45 sekund</p>
+            </div>
+            <div style="text-align: center; padding: 20px 0;">
+              <div style="width: 60px; height: 60px; border-radius: 50%; background: #fee2e2; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-size: 26px;">◉</div>
+              <div style="font-size: 11px; font-weight: 700;">Jana K.</div>
+              <div class="ui-small">Specialistka podvodů</div>
+            </div>
+            <div class="ui-card" style="background: var(--surface-2); border: none;">
+              <p class="ui-small" style="margin: 0;">Jana už vidí, co se stalo. Nemusíš vysvětlovat od začátku.</p>
+            </div>
+            <div class="ui-btn ghost full">Zrušit, jsem v pořádku</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">3</span>Lidská pomoc do 60 s</h4>
+          <p>V krizi žádný chatbot. Poradce má plný kontext incidentu — klient nemusí opakovat.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>Trezor</span><span>···</span></div>
+            <div class="ui-title" style="font-size: 12px;">Digitální trezor</div>
+            <div class="ui-card">
+              <div class="ui-row"><span class="ui-title">Doklady</span><span class="ui-small">4 ověřené</span></div>
+              <div class="ui-small">Občanka, ŘP, pas, karta pojištěnce</div>
+            </div>
+            <div class="ui-card" style="background: white; border: 1px solid var(--border);">
+              <div class="ui-row"><span class="ui-title">Oprávnění třetích stran</span><span class="ui-small">7 aktivních</span></div>
+              <div class="ui-small">Revolut, Alza, Amazon, 4 další</div>
+            </div>
+            <div class="ui-card" style="background: white; border: 1px solid var(--border);">
+              <div class="ui-row"><span class="ui-title">Zařízení</span><span class="ui-small">3 známá</span></div>
+              <div class="ui-small">iPhone, MacBook, Apple Watch</div>
+            </div>
+            <div class="ui-btn full" style="background: #dc2626;">Odvolat vše</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">4</span>Digitální trezor</h4>
+          <p>Jedno místo pro doklady, oprávnění a zařízení. „Odvolat vše" v krizi jedním klepnutím.</p>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="statusbar"><span>09:47</span><span>···</span></div>
+            <div class="ui-card success">
+              <div class="ui-title">Vyřešeno</div>
+              <p style="font-size: 10px; margin: 3px 0;">Žádná škoda nevznikla</p>
+            </div>
+            <div style="font-size: 10px;">
+              <div class="ui-row" style="padding: 3px 0;"><span>Co se stalo</span><strong>Deepfake hovor</strong></div>
+              <div class="ui-row" style="padding: 3px 0;"><span>Ušetřeno</span><strong>180 000 Kč</strong></div>
+              <div class="ui-row" style="padding: 3px 0;"><span>Zablokovaná čísla</span><strong>2</strong></div>
+              <div class="ui-row" style="padding: 3px 0;"><span>Refund</span><strong>—</strong></div>
+            </div>
+            <div class="ui-card" style="background: #eff6ff;">
+              <p class="ui-small" style="margin: 0; color: var(--brand);">Chceš si projít, jak poznat deepfake hovor? 2 min</p>
+            </div>
+            <div class="ui-btn full">Projít edukaci</div>
+          </div>
+        </div>
+        <div class="screen-caption">
+          <h4><span class="n">5</span>Post-incident report</h4>
+          <p>Shrnutí co se stalo, co banka udělala a personalizovaná edukace. Incident jako učení.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>5 — Dopad a rizika</h2>
+    <div class="impact-grid">
+      <div class="impact-card good">
+        <h4>Hlavní přínos</h4>
+        <ul>
+          <li>Ochrana i v momentě lidské chyby, stresu a manipulace (nikoli jen technické hrozby)</li>
+          <li>Bezpečnostní UX jako zdroj důvěry — viditelný štít, nikoli skrytý algoritmus</li>
+          <li>Soulad s PSD3/PSR (refund APP scamů jako default) jako konkurenční výhoda</li>
+          <li>Redukce ztrát z podvodů a snížení nákladů na reklamace</li>
+          <li>Digitální trezor jako sticky prvek — klient odchází obtížněji</li>
+        </ul>
+      </div>
+      <div class="impact-card risk">
+        <h4>Rizika a dilemata</h4>
+        <ul>
+          <li>False positives — zpomalení legitimních transakcí frustruje</li>
+          <li>„Nanny banking" — přehnaná ochrana vyvolá odpor digitálně zdatných uživatelů</li>
+          <li>Deepfake a sociální útoky se vyvíjejí rychleji než detekční modely</li>
+          <li>Edge cases: zneužití blízkou osobou (domácí násilí, péče o seniora)</li>
+          <li>GDPR: behaviorální monitoring vyžaduje jasný právní základ a transparentnost</li>
+          <li>Kapacita lidské podpory — slib „do 60 s" je drahý a obtížně škálovatelný</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>Banka 2030 — Konceptový prototyp</footer>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
