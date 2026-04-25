@@ -17,7 +17,7 @@ const sections = fs
       .filter((f) => f.endsWith(".html"))
       .map((f) => ({
         name: f.replace(".html", ""),
-        path: `/${dir}/${f}`,
+        path: `/${encodeURIComponent(dir)}/${encodeURIComponent(f)}`,
       }));
     return { section: dir, items: htmlFiles };
   })
@@ -77,6 +77,8 @@ const html = `<!DOCTYPE html>
 
     .page-header {
       padding: 56px 20px 8px;
+      max-width: 430px;
+      margin: 0 auto;
     }
 
     h1 {
@@ -91,7 +93,7 @@ const html = `<!DOCTYPE html>
       display: flex;
       flex-direction: column;
       gap: 20px;
-      max-width: 480px;
+      max-width: 430px;
       margin: 0 auto;
     }
 
