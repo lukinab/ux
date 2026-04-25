@@ -1,6 +1,14 @@
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require("child_process");
+
+// Slovník verzí – timestamps jsou spravovány ručně v versions.json
+// Díky tomu není potřeba plná git historie (shallow clone v CI nevadí)
+let versions = {};
+try {
+  versions = JSON.parse(fs.readFileSync("versions.json", "utf8"));
+} catch {
+  // versions.json neexistuje – žádné badge se nezobrazí
+}
 
 // Složky, které přeskočíme
 const IGNORE = new Set(["node_modules", ".git", ".cloudflare"]);
@@ -18,13 +26,7 @@ const sections = fs
       .filter((f) => f.endsWith(".html"))
       .map((f) => {
         const filePath = `${dir}/${f}`;
-        let modified;
-        try {
-          const ts = execSync(`git log -1 --format="%ct" -- "${filePath}"`, { encoding: "utf8" }).trim();
-          modified = ts ? parseInt(ts, 10) * 1000 : fs.statSync(filePath).mtimeMs;
-        } catch {
-          modified = fs.statSync(filePath).mtimeMs;
-        }
+        const modified = versions[filePath] || 0;
         return {
           name: f.replace(".html", ""),
           path: `${encodeURIComponent(dir)}/${encodeURIComponent(f)}`,
