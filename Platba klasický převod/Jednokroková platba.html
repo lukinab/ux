@@ -67,12 +67,14 @@ h1.proto-title {
 }
 
 /* ====== PHONE SHELL ====== */
-/* stage-wrap je relativní kontejner bez overflow:hidden → sheet animace je viditelná */
+/* stage-wrap ořeže sheet na tvar telefonu, ale bez clippingu stage obsahu */
 .stage-wrap {
   position: relative;
   width: 390px;
   height: 800px;
   flex-shrink: 0;
+  border-radius: 40px;
+  overflow: hidden;           /* skryje sheet pod telefonem, ale neořeže animaci uvnitř */
 }
 .stage {
   position: absolute;
@@ -955,6 +957,7 @@ input:checked + .switch-track::after { transform: translateX(18px); }
   .stage-wrap {
     width: 100vw;
     height: 100dvh;
+    border-radius: 0;
   }
   .stage {
     border-radius: 0;
