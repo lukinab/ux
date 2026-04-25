@@ -67,25 +67,15 @@ h1.proto-title {
 }
 
 /* ====== PHONE SHELL ====== */
-/* stage-wrap ořeže sheet na tvar telefonu, ale bez clippingu stage obsahu */
-.stage-wrap {
+.stage {
   position: relative;
   width: 390px;
   height: 800px;
-  flex-shrink: 0;
-  border-radius: 40px;
-  overflow: hidden;           /* skryje sheet pod telefonem, ale neořeže animaci uvnitř */
-}
-.stage {
-  position: absolute;
-  inset: 0;
   background: var(--bg);
   border-radius: 40px;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0,0,0,0.45);
   border: 8px solid #111;
-  transform: translateZ(0);   /* vlastní GPU layer – animace sheetu ho nerozhodí */
-  isolation: isolate;
 }
 
 .screen {
@@ -350,24 +340,36 @@ h1.proto-title {
 
 /* ===== CURRENCY BOTTOM SHEET ===== */
 .cur-sheet-overlay {
-  position: absolute; inset: 0; z-index: 200;
+  position: fixed; inset: 0; z-index: 200;
   background: rgba(0,0,0,0.35);
   opacity: 0; pointer-events: none;
-  transition: opacity 0s;   /* okamžité – pozadí se ztmaví hned, neanotuje se */
+  transition: opacity 0.2s;
 }
 .cur-sheet-overlay.open { opacity: 1; pointer-events: all; }
 .cur-sheet {
-  position: absolute; bottom: 0; left: 0; right: 0; z-index: 201;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: 390px;
+  z-index: 201;
   background: #fff;
   border-radius: 20px 20px 0 0;
   padding: 12px 0 0;
-  transform: translateY(100%);
   transition: transform 0.3s cubic-bezier(.32,.72,0,1);
-  max-height: 75%;
+  max-height: 75vh;
   display: flex; flex-direction: column;
-  will-change: transform;     /* vlastní GPU layer pro sheet */
 }
-.cur-sheet.open { transform: translateY(0); }
+.cur-sheet.open { transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 480px) {
+  .cur-sheet {
+    width: 100vw;
+    left: 0;
+    transform: translateY(100%);
+  }
+  .cur-sheet.open { transform: translateY(0); }
+}
 .cur-sheet-handle {
   width: 36px; height: 4px;
   background: #ddd; border-radius: 2px;
@@ -957,12 +959,9 @@ input:checked + .switch-track::after { transform: translateX(18px); }
   .hint {
     display: none;
   }
-  .stage-wrap {
+  .stage {
     width: 100vw;
     height: 100dvh;
-    border-radius: 0;
-  }
-  .stage {
     border-radius: 0;
     border: none;
     box-shadow: none;
@@ -978,7 +977,6 @@ input:checked + .switch-track::after { transform: translateX(18px); }
 <!-- ================================================================
      PHONE SHELL
      ================================================================ -->
-<div class="stage-wrap">
 <div class="stage">
 
   <!-- ======================== ÚVODNÍ OBRAZOVKA (HOME) ======================== -->
@@ -1439,15 +1437,13 @@ input:checked + .switch-track::after { transform: translateX(18px); }
 
 </div><!-- /stage -->
 
-<!-- CURRENCY BOTTOM SHEET (vně stage, uvnitř stage-wrap → animace není clipována) -->
+<!-- CURRENCY BOTTOM SHEET -->
 <div class="cur-sheet-overlay" id="cur-overlay"></div>
 <div class="cur-sheet" id="cur-sheet" role="dialog" aria-label="Výběr měny">
   <div class="cur-sheet-handle"></div>
   <div class="cur-sheet-title">Měna platby</div>
   <div class="cur-sheet-list" id="cur-list"></div>
 </div>
-
-</div><!-- /stage-wrap -->
 
 <p class="hint">Prototyp · Jednokrokový platební příkaz · <code>UX Research 2026</code></p>
 
