@@ -315,11 +315,22 @@ const html = `<!DOCTYPE html>
 
     // Detekce nových verzí
     function checkBadges() {
-      document.querySelectorAll('a.item[data-modified]').forEach(function (link) {
+      var links = document.querySelectorAll('a.item[data-modified]');
+
+      // První návštěva – žádné uložené záznamy: ulož aktuální stav, nezobrazuj nic
+      var isFirstVisit = !localStorage.getItem('rozcestnik__visited');
+      if (isFirstVisit) {
+        localStorage.setItem('rozcestnik__visited', '1');
+        links.forEach(function (link) {
+          localStorage.setItem('seen__' + link.getAttribute('href'), Date.now().toString());
+        });
+        return;
+      }
+
+      links.forEach(function (link) {
         var href = link.getAttribute('href');
         var modified = parseInt(link.getAttribute('data-modified'), 10);
-        var key = 'seen__' + href;
-        var seen = parseInt(localStorage.getItem(key) || '0', 10);
+        var seen = parseInt(localStorage.getItem('seen__' + href) || '0', 10);
         link.querySelector('.badge-new').style.display = (modified > seen) ? 'inline-block' : 'none';
       });
     }
