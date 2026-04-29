@@ -663,6 +663,13 @@
     background: #1A1A1A;
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   }
+  /* Scan tooltip – šipka míří na záložku Faktura */
+  #ctx-tooltip-scan {
+    top: 58px;
+  }
+  #ctx-tooltip-scan::before {
+    right: 68px;
+  }
   .ctx-tt-label {
     font-size: 11px;
     font-weight: 700;
@@ -915,6 +922,12 @@
       </div>
     </div>
 
+    <!-- Contextual tooltip pro scan (zobrazí se jen při příchodu přímo z dashboardu) -->
+    <div class="ctx-tooltip" id="ctx-tooltip-scan">
+      <div class="ctx-tt-text">Fakturu nově naskenujeme i bez QR kódu. Načteme si údaje přímo z faktury.</div>
+      <button class="ctx-tt-close" onclick="dismissScanTooltip()" aria-label="Zavřít">✕</button>
+    </div>
+
     <!-- Sheet for gallery -->
     <div class="sheet" id="sheet">
       <div class="sheet-inner">
@@ -1148,10 +1161,14 @@
   // ===== Contextual tooltip logic =====
   const TOOLTIP_KEY = 'tooltip_qr_noqr_dismissed';
 
+  // Sleduje, zda byl tooltip zobrazen na platební obrazovce v této session
+  var tooltipSeenOnPayment = false;
+
   function showTooltip() {
     if (localStorage.getItem(TOOLTIP_KEY)) return;
     const el = document.getElementById('ctx-tooltip-qr');
     if (!el) return;
+    tooltipSeenOnPayment = true;
     el.classList.add('show');
     requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
   }
@@ -1170,6 +1187,30 @@
     el.classList.remove('visible', 'show');
   }
 
+  // Tooltip pro obrazovku skenování (zobrazí se jen pokud nebyl tooltip na platební obrazovce)
+  function showScanTooltip() {
+    if (localStorage.getItem(TOOLTIP_KEY)) return;
+    if (tooltipSeenOnPayment) return;
+    const el = document.getElementById('ctx-tooltip-scan');
+    if (!el) return;
+    el.classList.add('show');
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
+  }
+
+  function dismissScanTooltip() {
+    const el = document.getElementById('ctx-tooltip-scan');
+    if (!el) return;
+    el.classList.remove('visible');
+    localStorage.setItem(TOOLTIP_KEY, '1');
+    setTimeout(() => el.classList.remove('show'), 280);
+  }
+
+  function hideScanTooltipImmediate() {
+    const el = document.getElementById('ctx-tooltip-scan');
+    if (!el) return;
+    el.classList.remove('visible', 'show');
+  }
+
   // Vykreslí obrazovku — bez zásahu do historie
   function _renderScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1180,6 +1221,9 @@
     if (id === 'screen-scan') {
       hideLoader();
       closeSheet();
+      setTimeout(showScanTooltip, 400);
+    } else {
+      hideScanTooltipImmediate();
     }
     if (id === 'screen-ocr-verify' && typeof resetPhoto === 'function') {
       resetPhoto();
@@ -1361,6 +1405,10 @@
     const tooltip = document.getElementById('ctx-tooltip-qr');
     if (tooltip && tooltip.classList.contains('show') && !tooltip.contains(e.target)) {
       dismissTooltip();
+    }
+    const scanTooltip = document.getElementById('ctx-tooltip-scan');
+    if (scanTooltip && scanTooltip.classList.contains('show') && !scanTooltip.contains(e.target)) {
+      dismissScanTooltip();
     }
   });
 </script>
