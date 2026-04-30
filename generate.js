@@ -246,23 +246,154 @@ const html = `<!DOCTYPE html>
       white-space: nowrap;
       flex-shrink: 0;
     }
+
+    .app {
+      display: none;
+    }
+
+    .gate {
+      position: fixed;
+      inset: 0;
+      background: #f2f2f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .gate-card {
+      width: 100%;
+      max-width: 360px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 24px 20px;
+    }
+
+    .gate-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #000;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .gate-sub {
+      font-size: 15px;
+      color: #6e6e73;
+      margin-bottom: 18px;
+    }
+
+    .gate-input {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 17px;
+      font-family: inherit;
+      background: #e9e9eb;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      color: #000;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .gate-input.error {
+      border-color: #ff3b30;
+    }
+
+    .gate-error {
+      display: none;
+      font-size: 13px;
+      color: #ff3b30;
+      margin-top: 8px;
+    }
+
+    .gate-error.show {
+      display: block;
+    }
+
+    .gate-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px 14px;
+      font-size: 17px;
+      font-weight: 600;
+      font-family: inherit;
+      background: #007aff;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+
+    .gate-btn:active {
+      background: #0062cc;
+    }
   </style>
 </head>
 <body>
-  <div class="page-header">
-    <h1>Rozcestník</h1>
+  <div class="gate" id="gate">
+    <form class="gate-card" id="gate-form" autocomplete="off">
+      <div class="gate-title">Rozcestník</div>
+      <div class="gate-sub">Pro pokračování zadejte heslo.</div>
+      <input class="gate-input" id="gate-input" type="password" placeholder="Heslo" autocomplete="off" autofocus />
+      <div class="gate-error" id="gate-error">Nesprávné heslo.</div>
+      <button class="gate-btn" type="submit">Pokračovat</button>
+    </form>
   </div>
-  <div class="search-wrap">
-    <div class="search-wrap-inner">
-      <input class="search-input" id="search" type="search" placeholder="Hledat…" autocomplete="off" />
-      <button class="search-clear" id="search-clear" aria-label="Smazat hledání">×</button>
+  <div class="app" id="app">
+    <div class="page-header">
+      <h1>Rozcestník</h1>
     </div>
+    <div class="search-wrap">
+      <div class="search-wrap-inner">
+        <input class="search-input" id="search" type="search" placeholder="Hledat…" autocomplete="off" />
+        <button class="search-clear" id="search-clear" aria-label="Smazat hledání">×</button>
+      </div>
+    </div>
+    <div class="content" id="content">
+      ${sectionsHtml}
+    </div>
+    <div class="no-results" id="no-results">Žádné výsledky</div>
   </div>
-  <div class="content" id="content">
-    ${sectionsHtml}
-  </div>
-  <div class="no-results" id="no-results">Žádné výsledky</div>
   <script>
+    (function () {
+      var PASSWORD = 'KB2026';
+      var STORAGE_KEY = 'rozcestnik__auth';
+      var gate = document.getElementById('gate');
+      var app = document.getElementById('app');
+      var form = document.getElementById('gate-form');
+      var input = document.getElementById('gate-input');
+      var errorEl = document.getElementById('gate-error');
+
+      function unlock() {
+        gate.style.display = 'none';
+        app.style.display = '';
+      }
+
+      if (localStorage.getItem(STORAGE_KEY) === '1') {
+        unlock();
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (input.value === PASSWORD) {
+          localStorage.setItem(STORAGE_KEY, '1');
+          unlock();
+        } else {
+          input.classList.add('error');
+          errorEl.classList.add('show');
+          input.select();
+        }
+      });
+
+      input.addEventListener('input', function () {
+        input.classList.remove('error');
+        errorEl.classList.remove('show');
+      });
+    })();
+
     function normalize(str) {
       return str.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase();
     }

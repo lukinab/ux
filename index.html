@@ -160,26 +160,120 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
+
+    .app {
+      display: none;
+    }
+
+    .gate {
+      position: fixed;
+      inset: 0;
+      background: #f2f2f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .gate-card {
+      width: 100%;
+      max-width: 360px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 24px 20px;
+    }
+
+    .gate-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #000;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .gate-sub {
+      font-size: 15px;
+      color: #6e6e73;
+      margin-bottom: 18px;
+    }
+
+    .gate-input {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 17px;
+      font-family: inherit;
+      background: #e9e9eb;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      color: #000;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .gate-input.error {
+      border-color: #ff3b30;
+    }
+
+    .gate-error {
+      display: none;
+      font-size: 13px;
+      color: #ff3b30;
+      margin-top: 8px;
+    }
+
+    .gate-error.show {
+      display: block;
+    }
+
+    .gate-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px 14px;
+      font-size: 17px;
+      font-weight: 600;
+      font-family: inherit;
+      background: #007aff;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+
+    .gate-btn:active {
+      background: #0062cc;
+    }
   </style>
 </head>
 <body>
-  <div class="page-header">
-    <h1>Rozcestník</h1>
+  <div class="gate" id="gate">
+    <form class="gate-card" id="gate-form" autocomplete="off">
+      <div class="gate-title">Rozcestník</div>
+      <div class="gate-sub">Pro pokračování zadejte heslo.</div>
+      <input class="gate-input" id="gate-input" type="password" placeholder="Heslo" autocomplete="off" autofocus />
+      <div class="gate-error" id="gate-error">Nesprávné heslo.</div>
+      <button class="gate-btn" type="submit">Pokračovat</button>
+    </form>
   </div>
-  <div class="search-wrap">
-    <div class="search-wrap-inner">
-      <input class="search-input" id="search" type="search" placeholder="Hledat…" autocomplete="off" />
-      <button class="search-clear" id="search-clear" aria-label="Smazat hledání">×</button>
+  <div class="app" id="app">
+    <div class="page-header">
+      <h1>Rozcestník</h1>
     </div>
-  </div>
-  <div class="content" id="content">
-    
+    <div class="search-wrap">
+      <div class="search-wrap-inner">
+        <input class="search-input" id="search" type="search" placeholder="Hledat…" autocomplete="off" />
+        <button class="search-clear" id="search-clear" aria-label="Smazat hledání">×</button>
+      </div>
+    </div>
+    <div class="content" id="content">
+      
     <div class="card" data-section="Banka 2030">
       <div class="section-title">Banka 2030</div>
       <div class="divider"></div>
       
         
-        <a class="item" href="Banka%202030/01%20Z%20pohledu%20u%C5%BEivatele.html" data-name="01 Z pohledu uživatele" data-modified="1777123579000">
+        <a class="item" href="Banka%202030/01%20Z%20pohledu%20u%C5%BEivatele.html" data-name="01 Z pohledu uživatele" data-modified="1777547242000">
           <span class="item-name">01 Z pohledu uživatele</span>
           <span class="badge-new" style="display:none">Nová verze</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -187,7 +281,7 @@
           </svg>
         </a>
         <div class="divider file-divider"></div>
-        <a class="item" href="Banka%202030/02%20Pil%C3%AD%C5%99e%20trhu%20-%20z%20pohledu%20banky.html" data-name="02 Pilíře trhu - z pohledu banky" data-modified="1777123579000">
+        <a class="item" href="Banka%202030/02%20Pil%C3%AD%C5%99e%20trhu%20-%20z%20pohledu%20banky.html" data-name="02 Pilíře trhu - z pohledu banky" data-modified="1777547242000">
           <span class="item-name">02 Pilíře trhu - z pohledu banky</span>
           <span class="badge-new" style="display:none">Nová verze</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -203,7 +297,7 @@
           </svg>
         </a>
         <div class="divider file-divider"></div>
-        <a class="item" href="Banka%202030/04%20Design%20day%20koncepty.html" data-name="04 Design day koncepty" data-modified="1777123579000">
+        <a class="item" href="Banka%202030/04%20Design%20day%20koncepty.html" data-name="04 Design day koncepty" data-modified="1777547242000">
           <span class="item-name">04 Design day koncepty</span>
           <span class="badge-new" style="display:none">Nová verze</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -217,7 +311,7 @@
       <div class="divider"></div>
       
         
-        <a class="item" href="Platba%20klasick%C3%BD%20p%C5%99evod/Jednokrokov%C3%A1%20platba.html" data-name="Jednokroková platba" data-modified="1777143861000">
+        <a class="item" href="Platba%20klasick%C3%BD%20p%C5%99evod/Jednokrokov%C3%A1%20platba.html" data-name="Jednokroková platba" data-modified="1777547242000">
           <span class="item-name">Jednokroková platba</span>
           <span class="badge-new" style="display:none">Nová verze</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -225,8 +319,8 @@
           </svg>
         </a>
         <div class="divider file-divider"></div>
-        <a class="item" href="Platba%20klasick%C3%BD%20p%C5%99evod/P%C5%99evod%20test.html" data-name="Převod test" data-modified="1777536906000">
-          <span class="item-name">Převod test</span>
+        <a class="item" href="Platba%20klasick%C3%BD%20p%C5%99evod/Kontextov%C3%A1%20n%C3%A1pov%C4%9Bda%20-%20chytr%C3%BD%20platebn%C3%AD%20formul%C3%A1%C5%99.html" data-name="Kontextová nápověda - chytrý platební formulář" data-modified="1777549596000">
+          <span class="item-name">Kontextová nápověda - chytrý platební formulář</span>
           <span class="badge-new" style="display:none">Nová verze</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"/>
@@ -239,7 +333,7 @@
       <div class="divider"></div>
       
         
-        <a class="item" href="Sken%20faktur%20a%20QR%20kodu/Skenov%C3%A1n%C3%AD%20faktury%20-%20segment%20control.html" data-name="Skenování faktury - segment control" data-modified="1777482453000">
+        <a class="item" href="Sken%20faktur%20a%20QR%20kodu/Skenov%C3%A1n%C3%AD%20faktury%20-%20segment%20control.html" data-name="Skenování faktury - segment control" data-modified="1777547242000">
           <span class="item-name">Skenování faktury - segment control</span>
           <span class="badge-new" style="display:none">Nová verze</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -253,7 +347,7 @@
       <div class="divider"></div>
       
         
-        <a class="item" href="VOP%20%2B%20SEPA%20instant/Prototyp.html" data-name="Prototyp" data-modified="1777529844000">
+        <a class="item" href="VOP%20%2B%20SEPA%20instant/Prototyp.html" data-name="Prototyp" data-modified="1777547242000">
           <span class="item-name">Prototyp</span>
           <span class="badge-new" style="display:none">Nová verze</span>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -261,9 +355,46 @@
           </svg>
         </a>
     </div>
+    </div>
+    <div class="no-results" id="no-results">Žádné výsledky</div>
   </div>
-  <div class="no-results" id="no-results">Žádné výsledky</div>
   <script>
+    (function () {
+      var PASSWORD = 'KB2026';
+      var STORAGE_KEY = 'rozcestnik__auth';
+      var gate = document.getElementById('gate');
+      var app = document.getElementById('app');
+      var form = document.getElementById('gate-form');
+      var input = document.getElementById('gate-input');
+      var errorEl = document.getElementById('gate-error');
+
+      function unlock() {
+        gate.style.display = 'none';
+        app.style.display = '';
+      }
+
+      if (localStorage.getItem(STORAGE_KEY) === '1') {
+        unlock();
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (input.value === PASSWORD) {
+          localStorage.setItem(STORAGE_KEY, '1');
+          unlock();
+        } else {
+          input.classList.add('error');
+          errorEl.classList.add('show');
+          input.select();
+        }
+      });
+
+      input.addEventListener('input', function () {
+        input.classList.remove('error');
+        errorEl.classList.remove('show');
+      });
+    })();
+
     function normalize(str) {
       return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     }
