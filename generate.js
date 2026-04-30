@@ -1,13 +1,23 @@
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 
-// Slovník verzí – timestamps jsou spravovány ručně v versions.json
-// Díky tomu není potřeba plná git historie (shallow clone v CI nevadí)
+// Získej timestamp posledního commitu pro soubor z gitu (ms)
+function getGitTimestamp(filePath) {
+  try {
+    const seconds = execSync(`git log -1 --format=%ct -- "${filePath}"`, { encoding: "utf8" }).trim();
+    return seconds ? parseInt(seconds, 10) * 1000 : 0;
+  } catch {
+    return 0;
+  }
+}
+
+// Záloha z versions.json pokud git selže (lokální náhled bez gitu)
 let versions = {};
 try {
   versions = JSON.parse(fs.readFileSync("versions.json", "utf8"));
 } catch {
-  // versions.json neexistuje – žádné badge se nezobrazí
+  // versions.json neexistuje – použije se čistě git
 }
 
 // Složky, které přeskočíme
@@ -26,7 +36,7 @@ const sections = fs
       .filter((f) => f.endsWith(".html"))
       .map((f) => {
         const filePath = `${dir}/${f}`;
-        const modified = versions[filePath] || 0;
+        const modified = getGitTimestamp(filePath) || versions[filePath] || 0;
         return {
           name: f.replace(".html", ""),
           path: `${encodeURIComponent(dir)}/${encodeURIComponent(f)}`,
