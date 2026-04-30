@@ -216,6 +216,54 @@
 
   .field-helper { font-size: 13px; color: var(--text-2); margin: -4px 4px 12px;}
 
+  /* ===== Kontextová nápověda (Komu) ===== */
+  .komu-label-row { display: flex; align-items: center; gap: 5px; }
+  .komu-info-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px;
+    border: none; background: transparent; padding: 0;
+    cursor: pointer; color: var(--text-3); flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .komu-info-btn:active { color: var(--text-2); }
+  .ctx-tooltip {
+    position: absolute;
+    left: 16px; right: 16px; width: auto;
+    background: #1A1A1A;
+    border-radius: 14px;
+    padding: 13px 36px 13px 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+    z-index: 100;
+    display: none; opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+    transition: opacity 0.26s cubic-bezier(.22,.8,.46,1), transform 0.26s cubic-bezier(.22,.8,.46,1);
+  }
+  .ctx-tooltip.show { display: block; }
+  .ctx-tooltip.visible { opacity: 1; transform: translateY(0) scale(1); }
+  #ctx-tooltip-komu { top: 218px; }
+  #ctx-tooltip-komu::before {
+    content: '';
+    position: absolute;
+    top: -7px; left: 22px;
+    width: 14px; height: 8px;
+    background: #1A1A1A;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+  .ctx-tt-label {
+    font-size: 11px; font-weight: 700; color: #E3000F;
+    text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px;
+  }
+  .ctx-tt-text { font-size: 14px; color: #fff; line-height: 1.45; }
+  .ctx-tt-close {
+    position: absolute; top: 10px; right: 10px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); border: none;
+    font-size: 11px; color: rgba(255,255,255,0.7);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    line-height: 1; padding: 0;
+  }
+  .ctx-tt-close:active { background: rgba(255,255,255,0.22); }
+
   .contact-link {
     background: transparent; padding: 8px 4px;
     display:flex; align-items:center; gap:16px; margin: 6px 0 18px; cursor:pointer;
@@ -471,7 +519,12 @@
       </div>
 
       <div class="field">
-        <div class="field-label">Komu</div>
+        <div class="komu-label-row">
+          <div class="field-label">Komu</div>
+          <button class="komu-info-btn" id="komu-info-btn" aria-label="Nápověda k poli Komu" onclick="toggleKomuTooltip()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="0.5" fill="currentColor"/></svg>
+          </button>
+        </div>
         <input id="recipient" type="text" placeholder="Číslo účtu, IBAN, šablona nebo příjemce" autocomplete="off">
       </div>
 
@@ -498,6 +551,12 @@
       </div>
 
       <div class="field-helper">Na účtu máte 18 063,38 Kč.</div>
+    </div>
+
+    <div class="ctx-tooltip" id="ctx-tooltip-komu">
+      <div class="ctx-tt-label">Chytrý platební příkaz</div>
+      <div class="ctx-tt-text">Zadejte číslo účtu nebo IBAN — typ platby určíme automaticky.</div>
+      <button class="ctx-tt-close" onclick="dismissKomuTooltip()" aria-label="Zavřít">✕</button>
     </div>
 
     <button class="primary-btn" id="payment-1-continue" data-action="payment-step-2">Pokračovat</button>
@@ -685,6 +744,45 @@ const PAGE_TITLES = {
 };
 
 /* ============================================================
+   KONTEXTOVÁ NÁPOVĚDA – pole Komu
+   ============================================================ */
+const KOMU_TOOLTIP_KEY = 'tooltip_komu_dismissed';
+
+function showKomuTooltip() {
+  if (localStorage.getItem(KOMU_TOOLTIP_KEY)) return;
+  const el = document.getElementById('ctx-tooltip-komu');
+  if (!el) return;
+  el.classList.add('show');
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
+}
+
+function dismissKomuTooltip() {
+  const el = document.getElementById('ctx-tooltip-komu');
+  if (!el) return;
+  el.classList.remove('visible');
+  localStorage.setItem(KOMU_TOOLTIP_KEY, '1');
+  setTimeout(() => el.classList.remove('show'), 280);
+}
+
+function hideKomuTooltipImmediate() {
+  const el = document.getElementById('ctx-tooltip-komu');
+  if (!el) return;
+  el.classList.remove('visible', 'show');
+}
+
+function toggleKomuTooltip() {
+  const el = document.getElementById('ctx-tooltip-komu');
+  if (!el) return;
+  if (el.classList.contains('show')) {
+    el.classList.remove('visible');
+    setTimeout(() => el.classList.remove('show'), 280);
+  } else {
+    el.classList.add('show');
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
+  }
+}
+
+/* ============================================================
    ANALYTICS - GA4 + CLARITY
    ============================================================ */
 function trackPage(screenId) {
@@ -749,6 +847,7 @@ function showScreen(screenId, opts) {
   if (screenId === 'summary') fillSummary();
   if (screenId === 'auth') startBiometrics();
   if (screenId === 'success') trackEvent('payment_completed', { amount: state.amount });
+  if (screenId === 'payment-1') { setTimeout(showKomuTooltip, 400); } else { hideKomuTooltipImmediate(); }
 }
 
 window.addEventListener('popstate', (e) => {
