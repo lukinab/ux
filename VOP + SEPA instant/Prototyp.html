@@ -1355,6 +1355,7 @@ const CORRECT_NAME = 'Jan Novák';
 let unverifiableUsed = false;
 let checkTimer = null;
 let currentNameState = 'empty';
+let pendingContinue = false;
 
 function removeDiacritics(str) {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
@@ -1428,6 +1429,7 @@ function validateRecipient() {
     setNameState('empty');
   } else {
     // reset to neutral while typing
+    currentNameState = 'pending';
     const wrap = document.getElementById('name-wrap');
     wrap.classList.remove('verified', 'error-border', 'warning-border');
     document.getElementById('name-status-icon').innerHTML = ICONS.info;
@@ -1450,7 +1452,10 @@ function checkRecipient() {
   // max once per payment flow
   if (!unverifiableUsed && Math.random() < 0.3) {
     unverifiableUsed = true;
-    setTimeout(() => setNameState('unverifiable'), 1000);
+    setTimeout(() => {
+      setNameState('unverifiable');
+      if (pendingContinue) { pendingContinue = false; goToS08(); }
+    }, 1000);
     return;
   }
 
@@ -1466,6 +1471,7 @@ function checkRecipient() {
     } else {
       setNameState('nomatch');
     }
+    if (pendingContinue) { pendingContinue = false; goToS08(); }
   }, 1000);
 }
 
@@ -1525,8 +1531,10 @@ function goToS08() {
     setNameState('required');
     return;
   }
-  if (currentNameState === 'empty') {
-    checkRecipient(); return;
+  if (currentNameState === 'empty' || currentNameState === 'pending') {
+    pendingContinue = true;
+    checkRecipient();
+    return;
   }
   paymentData.name = name;
 
