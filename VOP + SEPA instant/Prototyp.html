@@ -1472,7 +1472,7 @@ function checkRecipient() {
   if (!unverifiableUsed && Math.random() < 0.3) {
     unverifiableUsed = true;
     setTimeout(() => {
-      document.getElementById('verify-loader').classList.remove('active');
+      document.getElementById('verify-loader').style.display = 'none';
       setNameState('unverifiable');
       if (pendingContinue) { pendingContinue = false; goToS08(); }
     }, 1000);
@@ -1484,7 +1484,7 @@ function checkRecipient() {
   const dist = levenshtein(input, correct);
 
   setTimeout(() => {
-    document.getElementById('verify-loader').classList.remove('active');
+    document.getElementById('verify-loader').style.display = 'none';
     if (dist === 0) {
       setNameState('match');
     } else if (dist <= 3) {
@@ -1553,9 +1553,11 @@ function goToS08() {
     return;
   }
   if (currentNameState === 'empty' || currentNameState === 'pending') {
+    clearTimeout(checkTimer);
     pendingContinue = true;
-    document.getElementById('verify-loader').classList.add('active');
-    checkRecipient();
+    const loaderEl = document.getElementById('verify-loader');
+    loaderEl.style.display = 'flex';
+    requestAnimationFrame(() => requestAnimationFrame(() => checkRecipient()));
     return;
   }
   paymentData.name = name;
