@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <script>
-(function(){var H='4c129f69f551195cbc5e8b57cc5a0975b6efa1e8510573524d11df03c7d010c6',K='rozcestnik__auth';try{if(localStorage.getItem(K)==='1')return;var p=new URLSearchParams(location.search),k=p.get('k');if(!k){location.replace('../');return;}var s=document.createElement('style');s.textContent='html{visibility:hidden}';document.documentElement.appendChild(s);crypto.subtle.digest('SHA-256',new TextEncoder().encode(k)).then(function(b){var h=Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');if(h===H){localStorage.setItem(K,'1');p.delete('k');var q=p.toString();history.replaceState(history.state,'',location.pathname+(q?'?'+q:'')+location.hash);s.remove();}else{location.replace('../');}}).catch(function(){location.replace('../');});}catch(e){location.replace('../');}})();
+(function(){var H='4c129f69f551195cbc5e8b57cc5a0975b6efa1e8510573524d11df03c7d010c6',K='rozcestnik__auth';try{var p=new URLSearchParams(location.search);if(p.get('k')===H){localStorage.setItem(K,'1');p.delete('k');var q=p.toString();history.replaceState(history.state,'',location.pathname+(q?'?'+q:'')+location.hash);}if(localStorage.getItem(K)!=='1')location.replace('../');}catch(e){}})();
 </script>
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">

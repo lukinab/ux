@@ -39,7 +39,7 @@ const sections = fs
         const modified = getGitTimestamp(filePath) || versions[filePath] || 0;
         return {
           name: f.replace(".html", ""),
-          path: `${encodeURIComponent(dir)}/${encodeURIComponent(f)}?k=share2026`,
+          path: `${encodeURIComponent(dir)}/${encodeURIComponent(f)}?k=4c129f69f551195cbc5e8b57cc5a0975b6efa1e8510573524d11df03c7d010c6`,
           modified,
         };
       });
