@@ -90,19 +90,6 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 }
 .screen.active { display: flex; }
 
-/* ====== STATUS BAR ====== */
-.statusbar {
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px 0;
-  flex-shrink: 0;
-  background: var(--bg);
-}
-.statusbar-time { font-size: 15px; font-weight: 600; color: var(--text); }
-.statusbar-icons { display: flex; align-items: center; gap: 6px; }
-.statusbar-icons svg { width: 16px; height: 16px; fill: var(--text); }
 
 /* ====== TOP BAR ====== */
 .topbar {
@@ -783,13 +770,6 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 
   <!-- ===== SCREEN 1: DASHBOARD ===== -->
   <div class="screen active" id="screen-dashboard">
-    <div class="statusbar">
-      <span class="statusbar-time">9:41</span>
-      <div class="statusbar-icons">
-        <svg viewBox="0 0 24 24"><path d="M1.5 8.5A13 13 0 0 1 22.5 8.5"/><path d="M5 12a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="11" rx="2"/><path d="M18 10h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2" fill="currentColor" opacity=".4"/><rect x="4" y="9" width="10" height="7" rx="1" fill="currentColor"/></svg>
-      </div>
-    </div>
     <div class="dash-header">
       <div style="flex:1"></div>
       <button class="dash-icon-btn">
@@ -915,13 +895,6 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 
   <!-- ===== SCREEN 2: NOVÁ PLATBA ===== -->
   <div class="screen" id="screen-nova-platba">
-    <div class="statusbar">
-      <span class="statusbar-time">9:41</span>
-      <div class="statusbar-icons">
-        <svg viewBox="0 0 24 24"><path d="M1.5 8.5A13 13 0 0 1 22.5 8.5"/><path d="M5 12a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="11" rx="2"/><path d="M18 10h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2" fill="currentColor" opacity=".4"/><rect x="4" y="9" width="10" height="7" rx="1" fill="currentColor"/></svg>
-      </div>
-    </div>
     <div class="topbar">
       <button class="back-btn" onclick="goTo('dashboard')">
         <svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M8.5 1.5L1.5 8.5L8.5 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -993,13 +966,6 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 
   <!-- ===== SCREEN 3: WERO – VÝBĚR KONTAKTU ===== -->
   <div class="screen" id="screen-wero-kontakt">
-    <div class="statusbar">
-      <span class="statusbar-time">9:41</span>
-      <div class="statusbar-icons">
-        <svg viewBox="0 0 24 24"><path d="M1.5 8.5A13 13 0 0 1 22.5 8.5"/><path d="M5 12a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="11" rx="2"/><path d="M18 10h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2" fill="currentColor" opacity=".4"/><rect x="4" y="9" width="10" height="7" rx="1" fill="currentColor"/></svg>
-      </div>
-    </div>
     <div class="topbar">
       <button class="back-btn" onclick="goTo('nova-platba')">
         <svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M8.5 1.5L1.5 8.5L8.5 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -1158,13 +1124,6 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 
   <!-- ===== SCREEN 4: WERO – ČÁSTKA ===== -->
   <div class="screen" id="screen-wero-castka">
-    <div class="statusbar">
-      <span class="statusbar-time">9:41</span>
-      <div class="statusbar-icons">
-        <svg viewBox="0 0 24 24"><path d="M1.5 8.5A13 13 0 0 1 22.5 8.5"/><path d="M5 12a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="11" rx="2"/><path d="M18 10h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2" fill="currentColor" opacity=".4"/><rect x="4" y="9" width="10" height="7" rx="1" fill="currentColor"/></svg>
-      </div>
-    </div>
     <div class="topbar">
       <button class="back-btn" onclick="goTo('wero-kontakt')">
         <svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M8.5 1.5L1.5 8.5L8.5 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -1237,13 +1196,6 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 
   <!-- ===== SCREEN 5: WERO – POTVRZENÍ ===== -->
   <div class="screen" id="screen-wero-potvrzeni">
-    <div class="statusbar">
-      <span class="statusbar-time">9:41</span>
-      <div class="statusbar-icons">
-        <svg viewBox="0 0 24 24"><path d="M1.5 8.5A13 13 0 0 1 22.5 8.5"/><path d="M5 12a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="11" rx="2"/><path d="M18 10h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2" fill="currentColor" opacity=".4"/><rect x="4" y="9" width="10" height="7" rx="1" fill="currentColor"/></svg>
-      </div>
-    </div>
     <div class="topbar">
       <button class="back-btn" onclick="goTo('wero-castka')">
         <svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M8.5 1.5L1.5 8.5L8.5 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -1313,13 +1265,6 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 
   <!-- ===== SCREEN 6: WERO – ÚSPĚCH ===== -->
   <div class="screen" id="screen-wero-uspech">
-    <div class="statusbar">
-      <span class="statusbar-time">9:41</span>
-      <div class="statusbar-icons">
-        <svg viewBox="0 0 24 24"><path d="M1.5 8.5A13 13 0 0 1 22.5 8.5"/><path d="M5 12a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="11" rx="2"/><path d="M18 10h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2" fill="currentColor" opacity=".4"/><rect x="4" y="9" width="10" height="7" rx="1" fill="currentColor"/></svg>
-      </div>
-    </div>
 
     <!-- Zavřít nahoře vlevo -->
     <div style="padding:4px 20px 0;">
