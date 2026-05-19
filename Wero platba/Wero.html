@@ -1293,41 +1293,56 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
         <svg viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="11" rx="2"/><path d="M18 10h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2" fill="currentColor" opacity=".4"/><rect x="4" y="9" width="10" height="7" rx="1" fill="currentColor"/></svg>
       </div>
     </div>
-    <div class="topbar">
-      <span class="topbar-title">Platba přes Wero</span>
+
+    <!-- Zavřít nahoře vlevo -->
+    <div style="padding:4px 20px 0;">
+      <button onclick="goTo('dashboard')" style="background:none;border:none;font-size:16px;color:var(--text);cursor:pointer;font-family:inherit;padding:8px 0;">Zavřít</button>
     </div>
 
-    <div class="success-wrap">
-      <div class="success-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#0E8A4F" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="success-title">Platba odeslána!</div>
-      <div class="success-sub" id="uspech-sub">Poslali jste <strong id="uspech-amount">500 Kč</strong> kontaktu <strong id="uspech-name">Jana Kratochvílová</strong>. Peníze dorazí okamžitě.</div>
+    <!-- Tělo -->
+    <div style="flex:1;display:flex;flex-direction:column;padding:0 24px 32px;overflow-y:auto;">
 
-      <div class="success-detail">
-        <div class="success-detail-row">
-          <span class="success-detail-label">Příjemce</span>
-          <span class="success-detail-val" id="uspech-name2">Jana Kratochvílová</span>
-        </div>
-        <div class="success-detail-row">
-          <span class="success-detail-label">Telefon</span>
-          <span class="success-detail-val" id="uspech-phone">+420 777 123 456</span>
-        </div>
-        <div class="success-detail-row">
-          <span class="success-detail-label">Částka</span>
-          <span class="success-detail-val" id="uspech-amount2">500 Kč</span>
-        </div>
-        <div class="success-detail-row">
-          <span class="success-detail-label">Způsob</span>
-          <span class="success-detail-val">Wero · Okamžitá platba</span>
-        </div>
-        <div class="success-detail-row">
-          <span class="success-detail-label">Poplatek</span>
-          <span class="success-detail-val" style="color:var(--green)">Zdarma</span>
-        </div>
+      <!-- 3D checkmark ilustrace -->
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:24px 0;">
+        <svg width="200" height="180" viewBox="0 0 200 180" fill="none">
+          <!-- Platforma / podstavec -->
+          <ellipse cx="100" cy="158" rx="68" ry="14" fill="#DADADA" opacity=".5"/>
+          <path d="M32 130 Q32 148 100 152 Q168 148 168 130 L168 148 Q168 166 100 166 Q32 166 32 148 Z" fill="#E8E8E8"/>
+          <path d="M32 130 Q32 112 100 112 Q168 112 168 130 Q168 148 100 148 Q32 148 32 130 Z" fill="#F2F2F2"/>
+          <ellipse cx="100" cy="130" rx="68" ry="18" fill="#EFEFEF"/>
+          <!-- Stín checkmarku na platformě -->
+          <ellipse cx="103" cy="130" rx="28" ry="6" fill="#CCCCCC" opacity=".5"/>
+          <!-- Checkmark – tučný červený, 3D efekt -->
+          <!-- Levá část checkmarku (dolů doleva) -->
+          <path d="M62 88 L85 115" stroke="#C0201A" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Pravá část checkmarku (dolů doprava, ale nahoru) -->
+          <path d="M85 115 L138 52" stroke="#C0201A" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Světlejší přední hrana (3D efekt) -->
+          <path d="M62 88 L85 115" stroke="#E3000F" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M85 115 L138 52" stroke="#E3000F" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Highlight -->
+          <path d="M64 86 L86 112" stroke="#FF4D4D" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+          <path d="M86 112 L136 52" stroke="#FF4D4D" stroke-width="3" stroke-linecap="round" opacity=".3"/>
+        </svg>
       </div>
 
-      <button class="btn-primary" style="width:100%" onclick="goTo('dashboard')">Zpět na přehled</button>
+      <!-- Nadpis -->
+      <div style="font-size:28px;font-weight:700;color:var(--text);margin-bottom:32px;line-height:1.2;">
+        Zadali jste platbu
+      </div>
+
+      <!-- Skryté id prvky pro JS kompatibilitu -->
+      <span id="uspech-name" style="display:none">Jana Kratochvílová</span>
+      <span id="uspech-name2" style="display:none">Jana Kratochvílová</span>
+      <span id="uspech-phone" style="display:none">+420 777 123 456</span>
+      <span id="uspech-amount" style="display:none">0 EUR</span>
+      <span id="uspech-amount2" style="display:none">0 EUR</span>
+    </div>
+
+    <!-- Tlačítka dole -->
+    <div style="padding:0 24px 32px;display:flex;flex-direction:column;gap:10px;">
+      <button class="btn-primary" onclick="goTo('nova-platba')">Zadat další</button>
+      <button onclick="goTo('dashboard')" style="width:100%;padding:17px;background:transparent;border:1.5px solid var(--border);border-radius:14px;font-size:17px;font-weight:600;font-family:inherit;cursor:pointer;color:var(--text);">Zavřít</button>
     </div>
   </div>
 
