@@ -1449,7 +1449,7 @@ function selectWeroCur(code, flag, label, balance) {
     if (el) el.classList.toggle('selected', c === code);
   });
   weroCur = { code: code, flag: flag, label: label, balance: balance };
-  localStorage.setItem('wero_cur', JSON.stringify(weroCur));
+  lsSet('wero_cur', JSON.stringify(weroCur));
   // update UI
   document.getElementById('wero-cur-flag').textContent = flag;
   document.getElementById('wero-cur-code').textContent = label;
@@ -1476,12 +1476,14 @@ function switchWeroTab(tab) {
 }
 
 // ====== SELECT CONTACT ======
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch(e) {} }
+function lsGet(k) { try { return localStorage.getItem(k); } catch(e) { return null; } }
+
 function selectContact(fullName, key, color, phone) {
-  // Save to localStorage
-  localStorage.setItem('wero_name', fullName);
-  localStorage.setItem('wero_color', color);
-  localStorage.setItem('wero_phone', phone);
-  localStorage.setItem('wero_initial', fullName.charAt(0).toUpperCase());
+  lsSet('wero_name', fullName);
+  lsSet('wero_color', color);
+  lsSet('wero_phone', phone);
+  lsSet('wero_initial', fullName.charAt(0).toUpperCase());
 
   // Update castka screen
   document.getElementById('castka-avatar').style.background = color;
@@ -1506,13 +1508,13 @@ function selectContact(fullName, key, color, phone) {
 // ====== AMOUNT ======
 function setAmount(val) {
   document.getElementById('wero-amount').value = val;
-  localStorage.setItem('wero_amount', val);
+  lsSet('wero_amount', val);
   updateWeroAmount();
 }
 
 function updateWeroAmount() {
   var val = document.getElementById('wero-amount').value;
-  localStorage.setItem('wero_amount', val);
+  lsSet('wero_amount', val);
   var cur = weroCur.label || 'EUR';
   var formatted = parseFloat(val || 0).toLocaleString('cs-CZ', {minimumFractionDigits: 0, maximumFractionDigits: 2});
   document.getElementById('potv-amount').textContent = formatted;
@@ -1535,18 +1537,17 @@ function sendWeroPayment() {
 
 // ====== RESTORE localStorage ======
 (function restoreState() {
-  // restore currency
-  var savedCur = localStorage.getItem('wero_cur');
+  var savedCur = lsGet('wero_cur');
   if (savedCur) {
     try {
       var c = JSON.parse(savedCur);
       selectWeroCur(c.code, c.flag, c.label, c.balance);
     } catch(e) {}
   }
-  var name = localStorage.getItem('wero_name');
-  var color = localStorage.getItem('wero_color');
-  var phone = localStorage.getItem('wero_phone');
-  var amount = localStorage.getItem('wero_amount');
+  var name = lsGet('wero_name');
+  var color = lsGet('wero_color');
+  var phone = lsGet('wero_phone');
+  var amount = lsGet('wero_amount');
 
   if (name) {
     var initial = name.charAt(0).toUpperCase();
