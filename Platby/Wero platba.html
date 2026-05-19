@@ -1302,8 +1302,8 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
     <!-- Tělo -->
     <div style="flex:1;display:flex;flex-direction:column;padding:0 24px 32px;overflow-y:auto;">
 
-      <!-- 3D checkmark ilustrace -->
-      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:24px 0;">
+      <!-- 3D checkmark ilustrace – nahoře -->
+      <div style="display:flex;justify-content:center;padding:16px 0 0;">
         <svg width="200" height="180" viewBox="0 0 200 180" fill="none">
           <!-- Platforma / podstavec -->
           <ellipse cx="100" cy="158" rx="68" ry="14" fill="#DADADA" opacity=".5"/>
@@ -1313,23 +1313,22 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
           <!-- Stín checkmarku na platformě -->
           <ellipse cx="103" cy="130" rx="28" ry="6" fill="#CCCCCC" opacity=".5"/>
           <!-- Checkmark – tučný Wero žlutý, 3D efekt -->
-          <!-- Levá část checkmarku (dolů doleva) -->
           <path d="M62 88 L85 115" stroke="#C09800" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Pravá část checkmarku (dolů doprava, ale nahoru) -->
           <path d="M85 115 L138 52" stroke="#C09800" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Světlejší přední hrana (3D efekt) -->
           <path d="M62 88 L85 115" stroke="#FFD100" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M85 115 L138 52" stroke="#FFD100" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Highlight -->
           <path d="M64 86 L86 112" stroke="#FFE566" stroke-width="3" stroke-linecap="round" opacity=".5"/>
           <path d="M86 112 L136 52" stroke="#FFE566" stroke-width="3" stroke-linecap="round" opacity=".4"/>
         </svg>
       </div>
 
-      <!-- Nadpis -->
-      <div style="font-size:28px;font-weight:700;color:var(--text);margin-bottom:32px;line-height:1.2;">
+      <!-- Nadpis hned pod ilustrací -->
+      <div style="font-size:28px;font-weight:700;color:var(--text);margin-top:16px;line-height:1.2;">
         Zadali jste platbu
       </div>
+
+      <!-- Mezera -->
+      <div style="flex:1;"></div>
 
       <!-- Skryté id prvky pro JS kompatibilitu -->
       <span id="uspech-name" style="display:none">Jana Kratochvílová</span>
