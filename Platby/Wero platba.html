@@ -871,7 +871,7 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 
     <!-- Action bar -->
     <div class="action-bar">
-      <button class="action-btn" onclick="goTo('nova-platba')">
+      <button class="action-btn" onclick="resetWeroState();goTo('nova-platba')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h.01"/><path d="M11 15h2"/></svg>
         Nová platba
       </button>
@@ -1174,7 +1174,7 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 
         <!-- Zpráva -->
         <div style="border-top:1px solid var(--border)" class="msg-row">
-          <input class="msg-input" id="wero-message" type="text" placeholder="Zpráva pro příjemce (nepovinné)" maxlength="70">
+          <input class="msg-input" id="wero-message" type="text" placeholder="Zpráva pro příjemce (nepovinné)" maxlength="70" oninput="lsSet('wero_message',this.value)">
         </div>
       </div>
 
@@ -1204,7 +1204,7 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
     </div>
 
     <div class="sticky-btn-wrap">
-      <button class="btn-primary btn-wero" id="wero-continue-btn" onclick="goTo('wero-potvrzeni')">Pokračovat</button>
+      <button class="btn-primary btn-wero" id="wero-continue-btn" onclick="prepareConfirmation();goTo('wero-potvrzeni')">Pokračovat</button>
     </div>
   </div>
 
@@ -1340,7 +1340,7 @@ h1.proto-title { font-size: 18px; color: #fff; font-weight: 600; }
 
     <!-- Tlačítka dole -->
     <div style="padding:0 24px 32px;display:flex;flex-direction:column;gap:10px;">
-      <button class="btn-primary btn-wero" onclick="goTo('nova-platba')">Zadat další</button>
+      <button class="btn-primary btn-wero" onclick="resetWeroState();goTo('nova-platba')">Zadat další</button>
       <button onclick="goTo('dashboard')" style="width:100%;padding:17px;background:transparent;border:1.5px solid var(--border);border-radius:14px;font-size:17px;font-weight:600;font-family:inherit;cursor:pointer;color:var(--text);">Zavřít</button>
     </div>
   </div>
@@ -1475,10 +1475,67 @@ function switchWeroTab(tab) {
   document.getElementById('wero-phone-panel').style.display = tab === 'phone' ? '' : 'none';
 }
 
-// ====== SELECT CONTACT ======
+// ====== LS HELPERS ======
 function lsSet(k, v) { try { localStorage.setItem(k, v); } catch(e) {} }
 function lsGet(k) { try { return localStorage.getItem(k); } catch(e) { return null; } }
+function lsRemove(k) { try { localStorage.removeItem(k); } catch(e) {} }
 
+// ====== RESET STATE ======
+function resetWeroState() {
+  ['wero_name','wero_color','wero_phone','wero_initial','wero_amount','wero_message','wero_cur'].forEach(lsRemove);
+  var amtInp = document.getElementById('wero-amount');
+  if (amtInp) amtInp.value = '';
+  var msgInp = document.getElementById('wero-message');
+  if (msgInp) msgInp.value = '';
+  // reset currency to default EUR
+  weroCur = { code: 'EUR', flag: '🇪🇺', label: 'EUR', balance: '334,26 EUR' };
+  var flagEl = document.getElementById('wero-cur-flag');
+  if (flagEl) flagEl.textContent = '🇪🇺';
+  var codeEl = document.getElementById('wero-cur-code');
+  if (codeEl) codeEl.textContent = 'EUR';
+  var hint = document.getElementById('wero-balance-hint');
+  if (hint) hint.innerHTML = 'Na účtu máte <span>334,26 EUR</span>.';
+  // reset quick chips
+  var chips = document.querySelectorAll('.quick-chip');
+  var defaults = [10,20,50,100];
+  chips.forEach(function(btn,i){ btn.textContent = defaults[i]+' EUR'; btn.setAttribute('onclick','setAmount('+defaults[i]+')'); });
+  ['EUR','CZK','USD','GBP'].forEach(function(c){
+    var el = document.getElementById('cur-item-'+c);
+    if (el) el.classList.toggle('selected', c==='EUR');
+  });
+}
+
+// ====== PREPARE CONFIRMATION ======
+function prepareConfirmation() {
+  var name = lsGet('wero_name') || document.getElementById('castka-name').textContent;
+  var phone = lsGet('wero_phone') || document.getElementById('castka-phone').textContent;
+  var color = lsGet('wero_color') || '#FF6B6B';
+  var amount = document.getElementById('wero-amount').value || lsGet('wero_amount') || '0';
+  var msg = document.getElementById('wero-message').value || lsGet('wero_message') || '';
+  var cur = weroCur.label || 'EUR';
+
+  // save current amount
+  lsSet('wero_amount', amount);
+
+  var initial = name.charAt(0).toUpperCase();
+  var avatarEl = document.getElementById('potv-avatar');
+  if (avatarEl) { avatarEl.style.background = color; avatarEl.childNodes[0].textContent = initial; }
+  var nameEl = document.getElementById('potv-name');
+  if (nameEl) nameEl.textContent = name;
+  var phoneEl = document.getElementById('potv-phone');
+  if (phoneEl) phoneEl.textContent = phone;
+
+  var formatted = parseFloat(amount||0).toLocaleString('cs-CZ',{minimumFractionDigits:0,maximumFractionDigits:2});
+  var amtEl = document.getElementById('potv-amount');
+  if (amtEl) amtEl.textContent = formatted;
+  var curEl = document.getElementById('potv-cur-label');
+  if (curEl) curEl.textContent = cur;
+
+  var msgEl = document.getElementById('potv-message');
+  if (msgEl) { msgEl.textContent = msg || '—'; msgEl.style.color = msg ? 'var(--text)' : 'var(--text-3)'; }
+}
+
+// ====== SELECT CONTACT ======
 function selectContact(fullName, key, color, phone) {
   lsSet('wero_name', fullName);
   lsSet('wero_color', color);
@@ -1528,10 +1585,16 @@ function updateWeroAmount() {
 
 // ====== SEND PAYMENT ======
 function sendWeroPayment() {
-  var msg = document.getElementById('wero-message').value;
-  document.getElementById('potv-message').textContent = msg || '—';
-  document.getElementById('potv-message').style.color = msg ? 'var(--text)' : 'var(--text-3)';
-  updateWeroAmount();
+  var name = lsGet('wero_name') || document.getElementById('potv-name').textContent;
+  var phone = lsGet('wero_phone') || document.getElementById('potv-phone').textContent;
+  var amount = document.getElementById('potv-amount').textContent;
+  var cur = (document.getElementById('potv-cur-label') || {}).textContent || 'EUR';
+  var uspechAmt = amount + ' ' + cur;
+  document.getElementById('uspech-name').textContent = name;
+  document.getElementById('uspech-name2').textContent = name;
+  document.getElementById('uspech-phone').textContent = phone;
+  document.getElementById('uspech-amount').textContent = uspechAmt;
+  document.getElementById('uspech-amount2').textContent = uspechAmt;
   goTo('wero-uspech');
 }
 
@@ -1567,6 +1630,11 @@ function sendWeroPayment() {
     var inp = document.getElementById('wero-amount');
     if (inp) inp.value = amount;
     updateWeroAmount();
+  }
+  var msg = lsGet('wero_message');
+  if (msg) {
+    var msgInp = document.getElementById('wero-message');
+    if (msgInp) msgInp.value = msg;
   }
 })();
 </script>
