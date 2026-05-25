@@ -449,6 +449,8 @@
   .sd-label { font-size: 13px; color: var(--text-secondary); }
   .sd-value { font-size: 17px; font-weight: 600; color: var(--text-primary); word-break: break-all; }
   .sd-value.green { color: var(--success); }
+  .sd-sub { font-size: 14px; font-weight: 400; color: var(--text-secondary); margin-top: 2px; }
+  .sd-sub.error { color: var(--kb-red); }
 
   /* Bottom CTA */
   .cta-wrap {
@@ -924,10 +926,7 @@
       <div class="sd-row">
         <div class="sd-label">Přesný název příjemce</div>
         <div class="sd-value" id="sum-name">–</div>
-      </div>
-      <div class="sd-row">
-        <div class="sd-label">Ověření názvu</div>
-        <div class="sd-value" id="sum-verify">–</div>
+        <div class="sd-sub" id="sum-verify">–</div>
       </div>
       <div class="sd-row">
         <div class="sd-label">Datum platby</div>
@@ -1609,14 +1608,14 @@ function toggleSwitch(id) {
   document.getElementById(id).classList.toggle('on');
 }
 
-function fillSummaryAndGoS08(verifyLabel) {
+function fillSummaryAndGoS08(verifyLabel, isError) {
   document.getElementById('sum-iban').textContent = paymentData.iban;
   const amt = parseFloat(paymentData.amount) || 0;
   document.getElementById('sum-amount').textContent = amt.toFixed(2).replace('.',',') + ' ' + paymentData.currency;
   document.getElementById('sum-name').textContent = paymentData.name || '–';
   const verifyEl = document.getElementById('sum-verify');
   verifyEl.textContent = verifyLabel;
-  verifyEl.style.color = '';
+  verifyEl.classList.toggle('error', !!isError);
   const today = new Date();
   document.getElementById('sum-date').textContent = today.getDate()+'. '+(today.getMonth()+1)+'. '+today.getFullYear();
   track('payment_step2_continue', { name: paymentData.name, name_verified: paymentData.nameVerified });
@@ -1640,7 +1639,7 @@ function goToS08() {
   paymentData.name = name;
 
   if (currentNameState === 'match') {
-    fillSummaryAndGoS08('Název odpovídá číslu účtu');
+    fillSummaryAndGoS08('Název odpovídá číslu účtu.');
   } else if (currentNameState === 'partial') {
     document.getElementById('partial-suggested-name').textContent = CORRECT_NAME;
     document.getElementById('partial-user-name').textContent = name;
@@ -1650,7 +1649,7 @@ function goToS08() {
   } else if (currentNameState === 'unverifiable') {
     showSheet('unverifiable');
   } else {
-    fillSummaryAndGoS08('Neověřeno');
+    fillSummaryAndGoS08('Neověřeno.');
   }
 }
 
@@ -1665,20 +1664,20 @@ function choosePartialSuggested() {
   paymentData.name = CORRECT_NAME;
   document.getElementById('recipient-name').value = CORRECT_NAME;
   paymentData.nameVerified = true;
-  fillSummaryAndGoS08('Název odpovídá číslu účtu');
+  fillSummaryAndGoS08('Název odpovídá číslu účtu.');
 }
 function choosePartialUser() {
   closeSheet('partial', { skipTrack: true });
   paymentData.nameVerified = false;
-  fillSummaryAndGoS08('Název částečně odpovídá číslu účtu');
+  fillSummaryAndGoS08('Název částečně odpovídá číslu účtu.');
 }
 function confirmNomatch() {
   closeSheet('nomatch', { skipTrack: true });
-  fillSummaryAndGoS08('Název neodpovídá číslu účtu');
+  fillSummaryAndGoS08('Název neodpovídá číslu účtu.', true);
 }
 function confirmUnverifiable() {
   closeSheet('unverifiable', { skipTrack: true });
-  fillSummaryAndGoS08('Název nelze ověřit');
+  fillSummaryAndGoS08('Název nelze ověřit.', true);
 }
 
 // ── Auth ──
