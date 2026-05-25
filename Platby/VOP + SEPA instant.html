@@ -682,7 +682,7 @@
           <span class="card-num">122000/0100</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div class="card-amount" id="dashboard-balance">18 063<span>,38 Kč</span></div>
+          <div class="card-amount" id="dashboard-balance">125 063<span>,38 Kč</span></div>
           <span class="card-chevron">›</span>
         </div>
       </div>
@@ -821,7 +821,7 @@
         </div>
       </div>
       <div class="input-hint error" id="amount-error" style="display:none;margin-top:-8px;margin-bottom:8px;">Částka je povinný údaj.</div>
-      <div class="balance-hint" id="balance-hint">Na účtu vám zůstane 18 063,38 Kč.</div>
+      <div class="balance-hint" id="balance-hint">Na účtu vám zůstane 125 063,38 Kč.</div>
     </div>
     </div><!-- /screen-scroll -->
     <div class="cta-wrap">
@@ -1025,6 +1025,20 @@
     </div>
   </div>
 
+  <!-- ══ Limit alert modal (částka > 1000 EUR) ══ -->
+  <div id="limit-overlay" onclick="closeLimitSheet()" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.4);z-index:200;"></div>
+  <div id="limit-sheet" style="display:none;position:absolute;inset:0;z-index:201;align-items:center;justify-content:center;padding:0 32px;pointer-events:none;">
+    <div style="background:#fff;border-radius:14px;width:100%;max-width:340px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.15);pointer-events:auto;">
+      <div style="padding:22px 20px 18px;text-align:center;">
+        <div style="font-size:17px;font-weight:600;color:#1A1A1A;margin-bottom:6px;line-height:1.3;">Částka přesahuje stanovený limit</div>
+        <div style="font-size:14px;color:#1A1A1A;line-height:1.4;">Platbu uložíme pro pozdější autorizaci.</div>
+      </div>
+      <div style="border-top:1px solid #d1d1d6;">
+        <button onclick="closeLimitSheet()" style="width:100%;padding:13px;background:transparent;border:none;cursor:pointer;font-size:17px;color:#007AFF;font-weight:400;">Zavřít</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ══ No-match bottom sheet ══ -->
   <div id="nomatch-overlay" onclick="closeNomatchSheet()" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:200;"></div>
   <div id="nomatch-sheet" style="display:none;position:absolute;bottom:0;left:0;right:0;background:#F2F2F7;border-radius:24px 24px 0 0;z-index:201;padding:20px 20px 40px;">
@@ -1131,7 +1145,8 @@ const SHEET_CONFIG = {
   nomatch:      { parent: 's06', display: 'block' },
   unverifiable: { parent: 's06', display: 'block' },
   verify:       { parent: 's06', display: 'block' },
-  currency:     { parent: 's05', display: 'flex'  }
+  currency:     { parent: 's05', display: 'flex'  },
+  limit:        { parent: 's05', display: 'flex', modal: true }
 };
 const SHEET_NAMES = Object.keys(SHEET_CONFIG);
 
@@ -1155,7 +1170,9 @@ function showSheetDOM(name) {
   document.getElementById(name + '-overlay').style.display = 'block';
   const sheet = document.getElementById(name + '-sheet');
   sheet.style.display = cfg.display;
-  sheet.style.animation = 'slideUpSheet 0.3s cubic-bezier(0.25,0.46,0.45,0.94)';
+  sheet.style.animation = cfg.modal
+    ? 'scaleIn 0.18s ease-out'
+    : 'slideUpSheet 0.3s cubic-bezier(0.25,0.46,0.45,0.94)';
 }
 
 function hideSheetDOM(name) {
@@ -1286,7 +1303,7 @@ function validateIBAN() {
 }
 
 // Zůstatek na běžném účtu v Kč
-let accountBalanceCZK = 18063.38;
+let accountBalanceCZK = 125063.38;
 const EXCHANGE_RATES = { CZK: 1, EUR: 24.79, USD: 22.89, GBP: 28.90 };
 const CURRENCY_SYMBOLS = { CZK: 'Kč', EUR: 'EUR', USD: 'USD', GBP: 'GBP' };
 
@@ -1369,6 +1386,9 @@ const EXCHANGE_RATES_ALL = { CZK:1, EUR:24.79, USD:22.89, AUD:14.95, BGN:12.68, 
 function openVerifySheet() { openSheet('verify'); }
 function closeVerifySheet() { closeSheet('verify'); }
 
+function openLimitSheet() { openSheet('limit'); }
+function closeLimitSheet() { closeSheet('limit'); }
+
 function renderCurrencyList() {
   const list = document.getElementById('currency-list');
   list.innerHTML = CURRENCIES.map(c => `
@@ -1424,6 +1444,14 @@ function goToS06() {
 
   paymentData.iban = iban;
   paymentData.amount = amount;
+
+  // Limit kontrola: částka > 1000 EUR → zobrazit modál místo navigace
+  if (paymentData.currency === 'EUR' && parseFloat(amount) > 1000) {
+    track('payment_limit_exceeded', { amount: amount, currency: paymentData.currency });
+    openSheet('limit');
+    return;
+  }
+
   track('payment_step1_continue', { iban: paymentData.iban, amount: paymentData.amount, currency: paymentData.currency });
   goTo('s06');
 }
